@@ -78,10 +78,12 @@
    },
    "dependencies": {
       "chalk": "~5.0",
-      "fancy-log": "~2.0"
+      "fancy-log": "~2.0",
+      "fs-extra": "~10.1"
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
+      "@types/fs-extra": "~9.0",
       "@types/node": "~18.7",
       "@typescript-eslint/eslint-plugin": "~5.38",
       "@typescript-eslint/parser": "~5.38",
