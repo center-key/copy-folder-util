@@ -19,7 +19,7 @@ $ npm install --save-dev copy-folder-cli
 
 ## 2) Usage
 
-### npm scripts
+### A. npm scripts
 Call `copy-folder` from the `"scripts"` section of your **package.json** file.
 
 The **first** parameter is the *source* folder.
@@ -34,39 +34,44 @@ Example **package.json** script:
 
 Try out the script with the command: `npm run make-dist`
 
-### Global
+### B. Global
 You can install **copy-folder-cli** globally and then run it anywhere directly from the terminal.
 
 Example terminal commands:
 ```shell
 $ npm install --global copy-folder-cli
-$ copy-folder src/web ext=html docs/api-manual
+$ copy-folder src/web ext=.html docs/api-manual
 ```
 
-### TypeScript Code
-Even though **copy-folder-cli** is primarily intended for use in build scripts, the package can easily be used in TypeScript projects.
+### C. ESM and TypeScript Code
+Even though **copy-folder-cli** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
 
 ``` typescript
 import { copyFolder } from 'copy-folder-cli';
-const results = copyFolder.cp('src/web', 'docs/api-manual', { fileExtentions: ['html', 'js'] });
+const options = { fileExtentions: ['.html', '.js'] };
+const results = copyFolder.cp('src/web', 'docs/api-manual', options);
 console.log('Files copied:', results.count);
 ```
 
-See the **TypeScript Declaration File** file [clabe.d.ts](dist/clabe.d.ts) in the **dist** folder for documentation.
+See the **TypeScript Declaration File** file [copy-folder.d.ts](dist/copy-folder.d.ts) in the **dist** folder for documentation.
 
 ## 3) CLI Flags
 
 | Flag        | Description                                                                            | Values     | Default |
 | ----------- | -------------------------------------------------------------------------------------- | ---------- | ------- |
-| `--ext`     | Filter by file extension, such as `js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
+| `--ext`     | Filter by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
 | `--quiet`   | Suppress informational messages.                                                       | N/A        | N/A     |
 | `--summary` | Only print out the single line summary message.                                        | N/A        | N/A     |
+
+### Examples
+   - `copy-folder build dist --summary` &nbsp; Displays the summary but not the individual files copied.
+   - `copy-folder src/web --ext=.js,.html docs` &nbsp; Copy only the JavaScript and HTML files to the "docs" folder.
 
 <br>
 
 ---
 **Build Tools**
-   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header): _Adds a header comment to a file and saves it to your distribution folder_
-   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli): _A recursive directory file copy utility designed for use in npm scripts_
+   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Adds a header comment to a file and saves it to your distribution folder_
+   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _A recursive directory file copy utility designed for use in npm scripts_
 
 [MIT License](LICENSE.txt)
