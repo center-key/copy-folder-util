@@ -6,6 +6,7 @@ import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { join } from 'path';
 import { readdirSync, statSync } from 'fs';
 import assert from 'assert';
+import slash from 'slash';
 
 // Setup
 import { copyFolder } from '../dist/copy-folder.js';
@@ -17,7 +18,7 @@ const readDirSyncRecursive = (folder, files) => {
       if (statSync(folder + '/' + file).isDirectory())
          files = readDirSyncRecursive(folder + '/' + file, files);
       else
-         files.push(join(folder, '/', file));
+         files.push(slash(join(folder, '/', file)));
       };
    readdirSync(folder).forEach(process);
    return files.sort();
