@@ -31,16 +31,16 @@ const validFlags = ['ext', 'quiet', 'summary'];
 const args =       process.argv.slice(2);
 const flags =      args.filter(arg => /^--/.test(arg));
 const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
-const folders =    args.filter(arg => !/^--/.test(arg));
-const source =     folders[0];
-const target =     folders[1];
+const params =     args.filter(arg => !/^--/.test(arg));
+const source =     params[0];
+const target =     params[1];
 
 // Reporting
 const printReport = (results, summaryOnly) => {
    const name =      chalk.gray('copy-folder-cli');
    const source =    chalk.blue.bold(results.source);
    const target =    chalk.magenta(results.target);
-   const arrow =     { big: chalk.gray.bold('➤➤➤'), little: chalk.gray.bold(' ⟹ ') };
+   const arrow =     { big: chalk.gray.bold('➤➤➤'), little: chalk.gray.bold(' ⟹  ') };  //extra space for alignment
    const infoColor = results.count ? chalk.white : chalk.red.bold;
    const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
    const logFile =   (file) => log(name, chalk.white(file.origin), arrow.little, chalk.green(file.dest));
@@ -61,7 +61,7 @@ const error =
    !existsSync(source) ? 'Source folder does not exist: ' + source :
    !isFolder ?           'Source is not a valid folder: ' + source :
    !target ?             'Missing target folder.' :
-   folders.length > 2 ?  'Extraneous parameter: ' + folders[2] :
+   params.length > 2 ?   'Extraneous parameter: ' + params[2] :
    null;
 if (error)
    exit(error);

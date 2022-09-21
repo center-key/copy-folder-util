@@ -1,6 +1,8 @@
 // copy-folder-cli ~~ MIT License
 
-import fs from 'fs-extra'
+import fs from 'fs-extra';
+import path from 'path';
+import slash from 'slash';
 
 export type Options = {
    fileExtensions?: string[],  //filter files by supplied file extensions
@@ -16,7 +18,11 @@ export type Results = {
 
 const copyFolder = {
 
-   cp(source: string, target: string, options: Options): Results {
+   cp(sourceFolder: string, targetFolder: string, options: Options): Results {
+      const normalize = (folder: string) =>
+         !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
+      const source = normalize(sourceFolder);
+      const target = normalize(targetFolder);
       const startTime = Date.now();
       const defaults = {
          fileExtensions: [],
@@ -42,7 +48,10 @@ const copyFolder = {
          if (skip)
             skipped++;
          else if (!fs.statSync(origin).isDirectory())
-            files.push({ origin, dest });
+            files.push({
+               origin: origin.substring(source.length + 1),
+               dest:   dest.substring(target.length + 1),
+               });
          return !skip;
          };
       fs.copySync(source, target, { filter: filter })
