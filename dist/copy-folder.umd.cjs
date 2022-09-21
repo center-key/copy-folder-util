@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.0.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.0 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -30,23 +30,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const settings = Object.assign(Object.assign({}, defaults), options);
             if (target)
                 fs_extra_1.default.ensureDirSync(target);
-            const errorMessage = settings.fileExtensions.length ? 'File extension filtering not yet implemented.' :
-                !source ? 'Must specify the "source" folder path.' :
-                    !target ? 'Must specify the "target" folder path.' :
-                        !fs_extra_1.default.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
-                            !fs_extra_1.default.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
-                                !fs_extra_1.default.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
-                                    !fs_extra_1.default.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
-                                        null;
+            const errorMessage = !source ? 'Must specify the "source" folder path.' :
+                !target ? 'Must specify the "target" folder path.' :
+                    !fs_extra_1.default.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
+                        !fs_extra_1.default.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
+                            !fs_extra_1.default.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
+                                !fs_extra_1.default.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
+                                    null;
             if (errorMessage)
                 throw Error('[copy-folder-cli] ' + errorMessage);
             let skipped = 0;
             const files = [];
             const filter = (origin, dest) => {
-                const skip = false;
+                const stats = fs_extra_1.default.statSync(origin);
+                const skip = stats.isFile() && settings.fileExtensions.length > 0 &&
+                    !settings.fileExtensions.includes(path_1.default.extname(origin));
                 if (skip)
                     skipped++;
-                else if (!fs_extra_1.default.statSync(origin).isDirectory())
+                else if (!stats.isDirectory())
                     files.push({
                         origin: origin.substring(source.length + 1),
                         dest: dest.substring(target.length + 1),

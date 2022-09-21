@@ -10,16 +10,16 @@ _A recursive directory file copy utility designed for use in npm scripts_
 
 **copy-folder-cli** copies a folder and its subfolders.
 
-## 1) Setup
+## A) Setup
 
 Install package for node:
 ```shell
 $ npm install --save-dev copy-folder-cli
 ```
 
-## 2) Usage
+## B) Usage
 
-### A. npm scripts
+### 1. npm scripts
 Call `copy-folder` from the `"scripts"` section of your **package.json** file.
 
 The **first** parameter is the *source* folder.
@@ -34,7 +34,7 @@ Example **package.json** script:
 
 Try out the script with the command: `npm run make-dist`
 
-### B. Global
+### 2. Global
 You can install **copy-folder-cli** globally and then run it anywhere directly from the terminal.
 
 Example terminal commands:
@@ -43,7 +43,7 @@ $ npm install --global copy-folder-cli
 $ copy-folder src/web ext=.html docs/api-manual
 ```
 
-### C. ESM and TypeScript Code
+### 3. ESM and TypeScript Code
 Even though **copy-folder-cli** is primarily intended for build scripts, the package can easily be used in ESM and TypeScript projects.
 
 ``` typescript
@@ -55,7 +55,7 @@ console.log('Files copied:', results.count);
 
 See the **TypeScript Declaration File** file [copy-folder.d.ts](dist/copy-folder.d.ts) in the **dist** folder for documentation.
 
-## 3) CLI Flags
+## C) CLI Flags
 
 | Flag        | Description                                                                            | Values     | Default |
 | ----------- | -------------------------------------------------------------------------------------- | ---------- | ------- |
