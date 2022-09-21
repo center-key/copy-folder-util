@@ -42,12 +42,15 @@ $ npx copy-folder build dist
 ```
 
 ## 3) CLI Flags
-| Flag       | Description                                                                            | Values     | Default |
-| ---------- | -------------------------------------------------------------------------------------- | ---------- | ------- |
-| `--ext`    | Filter by file extension, such as `js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
-| `--silent` | Suppress informational message.                                                        | N/A        | N/A     |
+| Flag        | Description                                                                            | Values     | Default |
+| ----------- | -------------------------------------------------------------------------------------- | ---------- | ------- |
+| `--ext`     | Filter by file extension, such as `js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
+| `--quiet`   | Suppress informational messages.                                                       | N/A        | N/A     |
+| `--summary` | Only print out the single line summary message.                                        | N/A        | N/A     |
 
 <br>
 
 ---
+Build Tools: [add-dist-header](../add-dist-header) | [copy-folder-cli](../copy-folder-cli)
+
 [MIT License](LICENSE.txt)

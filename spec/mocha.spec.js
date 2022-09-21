@@ -85,4 +85,10 @@ describe('Correct error is thrown', () => {
       assert.throws(makeBogusCall, exception);
       });
 
+   it('when "target" folder is missing', () => {
+      const makeBogusCall = () => copyFolder.cp('/source-folder');
+      const exception =     { message: '[copy-folder-cli] Must specify the "target" folder path.' };
+      assert.throws(makeBogusCall, exception);
+      });
+
    });

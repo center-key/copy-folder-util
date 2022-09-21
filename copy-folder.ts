@@ -5,17 +5,19 @@ import fs from 'fs-extra'
 export type Options = {
    fileExtensions?: string[],  //filter files by supplied file extensions
    };
-export type Result = {
-   source:  string,  //path of origination folder
-   target:  string,  //path of destination folder
-   count:   number,  //number of files copied
-   skipped: number,  //files filtered out
-   files:   { origin: string, destination: string }[],
+export type Results = {
+   source:   string,  //path of origination folder
+   target:   string,  //path of destination folder
+   count:    number,  //number of files copied
+   skipped:  number,  //files filtered out
+   duration: number,  //execution time in milliseconds
+   files:   { origin: string, dest: string }[],
    };
 
 const copyFolder = {
 
-   cp(source: string, target: string, options: Options): Result {
+   cp(source: string, target: string, options: Options): Results {
+      const startTime = Date.now();
       const defaults = {
          fileExtensions: [],
          };
@@ -34,22 +36,23 @@ const copyFolder = {
       if (errorMessage)
          throw Error('[copy-folder-cli] ' + errorMessage);
       let skipped = 0;
-      const files: Result["files"] = [];
-      const filter = (origin: string, destination: string) => {
+      const files: Results["files"] = [];
+      const filter = (origin: string, dest: string) => {
          const skip = false;
          if (skip)
             skipped++;
          else if (!fs.statSync(origin).isDirectory())
-            files.push({ origin, destination });
+            files.push({ origin, dest });
          return !skip;
          };
       fs.copySync(source, target, { filter: filter })
       return {
-         source:  source,
-         target:  target,
-         count:   files.length,
-         skipped: skipped,
-         files:   files
+         source:   source,
+         target:   target,
+         count:    files.length,
+         skipped:  skipped,
+         duration: Date.now() - startTime,
+         files:    files,
          };
       },
 
