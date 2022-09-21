@@ -12,13 +12,14 @@ _A recursive directory file copy utility designed for use in npm scripts_
 
 ## 1) Setup
 
-### Install
 Install package for node:
 ```shell
 $ npm install --save-dev copy-folder-cli
 ```
 
 ## 2) Usage
+
+### npm scripts
 Call `copy-folder` from the `"scripts"` section of your **package.json** file.
 
 The **first** parameter is the *source* folder.
@@ -31,17 +32,30 @@ Example **package.json** script:
    },
 ```
 
-Alternatively, you can run **copy-folder-cli** directly from the terminal in your project home
-folder.
+Try out the script with the command: `npm run make-dist`
 
-Example terminal command:
+### Global
+You can install **copy-folder-cli** globally and then run it anywhere directly from the terminal.
+
+Example terminal commands:
 ```shell
-$ ls package.json
-package.json
-$ npx copy-folder build dist
+$ npm install --global copy-folder-cli
+$ copy-folder src/web ext=html docs/api-manual
 ```
 
+### TypeScript Code
+Even though **copy-folder-cli** is primarily intended for use in build scripts, the package can easily be used in TypeScript projects.
+
+``` typescript
+import { copyFolder } from 'copy-folder-cli';
+const results = copyFolder.cp('src/web', 'docs/api-manual', { fileExtentions: ['html', 'js'] });
+console.log('Files copied:', results.count);
+```
+
+See the **TypeScript Declaration File** file [clabe.d.ts](dist/clabe.d.ts) in the **dist** folder for documentation.
+
 ## 3) CLI Flags
+
 | Flag        | Description                                                                            | Values     | Default |
 | ----------- | -------------------------------------------------------------------------------------- | ---------- | ------- |
 | `--ext`     | Filter by file extension, such as `js`.<br>Use a comma to specify multiple extensions. | **string** | N/A     |
@@ -51,6 +65,8 @@ $ npx copy-folder build dist
 <br>
 
 ---
-Build Tools: [add-dist-header](../add-dist-header) | [copy-folder-cli](../copy-folder-cli)
+**Build Tools**
+   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header): _Adds a header comment to a file and saves it to your distribution folder_
+   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli): _A recursive directory file copy utility designed for use in npm scripts_
 
 [MIT License](LICENSE.txt)

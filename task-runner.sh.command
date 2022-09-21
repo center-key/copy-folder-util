@@ -17,12 +17,10 @@ setupTools() {
    echo $banner
    echo $(echo $banner | sed s/./=/g)
    pwd
-   echo
    test -d .git || { echo "Project must be in a git repository."; exit; }
-   echo "Restore dist folder"
-   # If "dist" folder is not yet in git, below line output errors.
-   git restore dist/*
+   git restore dist/* &>/dev/null
    git pull --ff-only
+   echo
    echo "Node.js:"
    which node || { echo "Need to install Node.js: https://nodejs.org"; exit; }
    node --version
@@ -38,11 +36,10 @@ releaseInstructions() {
    package=https://raw.githubusercontent.com/$repository/main/package.json
    version=v$(grep '"version"' package.json | awk -F'"' '{print $4}')
    pushed=v$(curl --silent $package | grep '"version":' | awk -F'"' '{print $4}')
-   released=$(git tag | tail -1)
-   echo "Retrieve current version number from npm"
-   # If not yet published, line below generates: npm ERR! code E404
-   published=v$(npm view $repository version)
    minorVersion=$(echo ${pushed:1} | awk -F"." '{ print $1 "." $2 }')
+   released=$(git tag | tail -1)
+   published=v$(npm view $repository version)
+   test $? -ne 0 && echo "NOTE: Ignore error if package is not yet published."
    echo "Local changes:"
    git status --short
    echo

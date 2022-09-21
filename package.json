@@ -1,6 +1,6 @@
 {
    "name": "copy-folder-cli",
-   "version": "0.0.2",
+   "version": "0.0.3",
    "description": "A recursive directory file copy utility designed for use in npm scripts (written in functional TypeScript)",
    "license": "MIT",
    "type": "module",

@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.0.2 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.0.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -9,15 +9,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "fs-extra"], factory);
+        define(["require", "exports", "fs-extra", "path", "slash"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.copyFolder = void 0;
     const fs_extra_1 = __importDefault(require("fs-extra"));
+    const path_1 = __importDefault(require("path"));
+    const slash_1 = __importDefault(require("slash"));
     const copyFolder = {
-        cp(source, target, options) {
+        cp(sourceFolder, targetFolder, options) {
+            const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
+            const source = normalize(sourceFolder);
+            const target = normalize(targetFolder);
+            const startTime = Date.now();
             const defaults = {
                 fileExtensions: [],
             };
@@ -36,12 +42,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 throw Error('[copy-folder-cli] ' + errorMessage);
             let skipped = 0;
             const files = [];
-            const filter = (origin, destination) => {
+            const filter = (origin, dest) => {
                 const skip = false;
                 if (skip)
                     skipped++;
                 else if (!fs_extra_1.default.statSync(origin).isDirectory())
-                    files.push({ origin, destination });
+                    files.push({
+                        origin: origin.substring(source.length + 1),
+                        dest: dest.substring(target.length + 1),
+                    });
                 return !skip;
             };
             fs_extra_1.default.copySync(source, target, { filter: filter });
@@ -50,7 +59,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 target: target,
                 count: files.length,
                 skipped: skipped,
-                files: files
+                duration: Date.now() - startTime,
+                files: files,
             };
         },
     };

@@ -1,8 +1,14 @@
-//! copy-folder-cli v0.0.2 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.0.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 import fs from 'fs-extra';
+import path from 'path';
+import slash from 'slash';
 const copyFolder = {
-    cp(source, target, options) {
+    cp(sourceFolder, targetFolder, options) {
+        const normalize = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
+        const source = normalize(sourceFolder);
+        const target = normalize(targetFolder);
+        const startTime = Date.now();
         const defaults = {
             fileExtensions: [],
         };
@@ -21,12 +27,15 @@ const copyFolder = {
             throw Error('[copy-folder-cli] ' + errorMessage);
         let skipped = 0;
         const files = [];
-        const filter = (origin, destination) => {
+        const filter = (origin, dest) => {
             const skip = false;
             if (skip)
                 skipped++;
             else if (!fs.statSync(origin).isDirectory())
-                files.push({ origin, destination });
+                files.push({
+                    origin: origin.substring(source.length + 1),
+                    dest: dest.substring(target.length + 1),
+                });
             return !skip;
         };
         fs.copySync(source, target, { filter: filter });
@@ -35,7 +44,8 @@ const copyFolder = {
             target: target,
             count: files.length,
             skipped: skipped,
-            files: files
+            duration: Date.now() - startTime,
+            files: files,
         };
     },
 };
