@@ -5,7 +5,7 @@ import path from 'path';
 import slash from 'slash';
 
 export type Options = {
-   fileExtensions?: string[],  //filter files by supplied file extensions
+   fileExtensions?: string[],  //filter files by supplied file extensions, example: ['.js']
    };
 export type Results = {
    source:   string,  //path of origination folder
@@ -31,7 +31,6 @@ const copyFolder = {
       if (target)
          fs.ensureDirSync(target);
       const errorMessage =
-         settings.fileExtensions.length ?     'File extension filtering not yet implemented.' :
          !source ?                            'Must specify the "source" folder path.' :
          !target ?                            'Must specify the "target" folder path.' :
          !fs.pathExistsSync(source) ?         'Source folder does not exist: ' + source :
@@ -44,10 +43,12 @@ const copyFolder = {
       let skipped = 0;
       const files: Results["files"] = [];
       const filter = (origin: string, dest: string) => {
-         const skip = false;
+         const stats = fs.statSync(origin);
+         const skip = stats.isFile() && settings.fileExtensions.length > 0 &&
+            !settings.fileExtensions.includes(path.extname(origin));
          if (skip)
             skipped++;
-         else if (!fs.statSync(origin).isDirectory())
+         else if (!stats.isDirectory())
             files.push({
                origin: origin.substring(source.length + 1),
                dest:   dest.substring(target.length + 1),
