@@ -79,6 +79,40 @@ describe('Calling copyFolder.cp() with no options', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+describe('Calling copyFolder.cp() with the basename option', () => {
+
+   it('set to undefined results in all files being copied', () => {
+      const source = 'spec/fixtures/source';
+      const target = 'spec/fixtures/target/basename';
+      copyFolder.cp(source, target, { basename: undefined });
+      const actual = readDirSyncRecursive(target);
+      const expected = [
+         'spec/fixtures/target/basename/mock1.html',
+         'spec/fixtures/target/basename/mock1.js',
+         'spec/fixtures/target/basename/mock1.min.css',
+         'spec/fixtures/target/basename/subfolder/mock2.html',
+         'spec/fixtures/target/basename/subfolder/mock2.js',
+         'spec/fixtures/target/basename/subfolder/mock2.min.css',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   it('set to "mock2" only copies the "mock2" files', () => {
+      const source = 'spec/fixtures/source';
+      const target = 'spec/fixtures/target/basename-mock2';
+      copyFolder.cp(source, target, { basename: 'mock2' });
+      const actual = readDirSyncRecursive(target);
+      const expected = [
+         'spec/fixtures/target/basename-mock2/subfolder/mock2.html',
+         'spec/fixtures/target/basename-mock2/subfolder/mock2.js',
+         'spec/fixtures/target/basename-mock2/subfolder/mock2.min.css',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Calling copyFolder.cp() with the fileExtensions option', () => {
 
    it('set to undefined results in all files being copied', () => {
