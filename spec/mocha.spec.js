@@ -12,6 +12,7 @@ import slash from 'slash';
 import { copyFolder } from '../dist/copy-folder.js';
 
 // Utilities
+const readDirSync = (folder) => readdirSync(folder).map(file => slash(file)).sort();
 const readDirSyncRecursive = (folder, files) => {
    files = files ?? [];
    const process = (file) => {
@@ -28,7 +29,7 @@ const readDirSyncRecursive = (folder, files) => {
 describe('The "dist" folder', () => {
 
    it('contains the correct files', () => {
-      const actual = readdirSync('dist').sort();
+      const actual = readDirSync('dist');
       const expected = [
          'copy-folder.d.ts',
          'copy-folder.js',
@@ -80,6 +81,19 @@ describe('Calling copyFolder.cp() with no options', () => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 describe('Calling copyFolder.cp() with the fileExtensions option', () => {
 
+   it('set to undefined results in all files being copied', () => {
+      const source = 'spec/fixtures/source/subfolder';
+      const target = 'spec/fixtures/target/default';
+      copyFolder.cp(source, target, { fileExtensions: undefined });
+      const actual = readDirSyncRecursive(target);
+      const expected = [
+         'spec/fixtures/target/default/mock2.html',
+         'spec/fixtures/target/default/mock2.js',
+         'spec/fixtures/target/default/mock2.min.css',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
    it('set to ".js" only copies the JavaScript files', () => {
       const source = 'spec/fixtures/source';
       const target = 'spec/fixtures/target/js';
@@ -99,13 +113,13 @@ describe('Correct error is thrown', () => {
 
    it('when the "source" folder is missing', () => {
       const makeBogusCall = () => copyFolder.cp();
-      const exception =     { message: '[copy-folder-cli] Must specify the "source" folder path.' };
+      const exception =     { message: '[copy-folder-cli] Must specify the source folder path.' };
       assert.throws(makeBogusCall, exception);
       });
 
    it('when the "target" folder is missing', () => {
       const makeBogusCall = () => copyFolder.cp('/source-folder');
-      const exception =     { message: '[copy-folder-cli] Must specify the "target" folder path.' };
+      const exception =     { message: '[copy-folder-cli] Must specify the target folder path.' };
       assert.throws(makeBogusCall, exception);
       });
 
