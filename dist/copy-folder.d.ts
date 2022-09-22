@@ -1,13 +1,13 @@
 //! copy-folder-cli v0.1.1 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 export declare type Options = {
+    basename?: string;
     fileExtensions?: string[];
 };
 export declare type Results = {
     source: string;
     target: string;
     count: number;
-    skipped: number;
     duration: number;
     files: {
         origin: string;

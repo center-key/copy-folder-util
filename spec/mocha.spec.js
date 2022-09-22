@@ -62,16 +62,16 @@ describe('Calling copyFolder.cp() with no options', () => {
 
    it('copies all files in the source folder to the target folder', () => {
       const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/all';
+      const target = 'spec/fixtures/target/default';
       copyFolder.cp(source, target);
       const actual = readDirSyncRecursive(target);
       const expected = [
-         'spec/fixtures/target/all/mock1.html',
-         'spec/fixtures/target/all/mock1.js',
-         'spec/fixtures/target/all/mock1.min.css',
-         'spec/fixtures/target/all/subfolder/mock2.html',
-         'spec/fixtures/target/all/subfolder/mock2.js',
-         'spec/fixtures/target/all/subfolder/mock2.min.css',
+         'spec/fixtures/target/default/mock1.html',
+         'spec/fixtures/target/default/mock1.js',
+         'spec/fixtures/target/default/mock1.min.css',
+         'spec/fixtures/target/default/subfolder/mock2.html',
+         'spec/fixtures/target/default/subfolder/mock2.js',
+         'spec/fixtures/target/default/subfolder/mock2.min.css',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -116,26 +116,29 @@ describe('Calling copyFolder.cp() with the basename option', () => {
 describe('Calling copyFolder.cp() with the fileExtensions option', () => {
 
    it('set to undefined results in all files being copied', () => {
-      const source = 'spec/fixtures/source/subfolder';
-      const target = 'spec/fixtures/target/default';
+      const source = 'spec/fixtures/source';
+      const target = 'spec/fixtures/target/ext';
       copyFolder.cp(source, target, { fileExtensions: undefined });
       const actual = readDirSyncRecursive(target);
       const expected = [
-         'spec/fixtures/target/default/mock2.html',
-         'spec/fixtures/target/default/mock2.js',
-         'spec/fixtures/target/default/mock2.min.css',
+         'spec/fixtures/target/ext/mock1.html',
+         'spec/fixtures/target/ext/mock1.js',
+         'spec/fixtures/target/ext/mock1.min.css',
+         'spec/fixtures/target/ext/subfolder/mock2.html',
+         'spec/fixtures/target/ext/subfolder/mock2.js',
+         'spec/fixtures/target/ext/subfolder/mock2.min.css',
          ];
       assertDeepStrictEqual(actual, expected);
       });
 
    it('set to ".js" only copies the JavaScript files', () => {
       const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/js';
+      const target = 'spec/fixtures/target/ext-js';
       copyFolder.cp(source, target, { fileExtensions: ['.js'] });
       const actual = readDirSyncRecursive(target);
       const expected = [
-         'spec/fixtures/target/js/mock1.js',
-         'spec/fixtures/target/js/subfolder/mock2.js',
+         'spec/fixtures/target/ext-js/mock1.js',
+         'spec/fixtures/target/ext-js/subfolder/mock2.js',
          ];
       assertDeepStrictEqual(actual, expected);
       });

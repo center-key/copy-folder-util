@@ -21,6 +21,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const copyFolder = {
         cp(sourceFolder, targetFolder, options) {
             const defaults = {
+                basename: null,
                 fileExtensions: [],
             };
             const settings = Object.assign(Object.assign({}, defaults), options);
@@ -39,28 +40,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                                     null;
             if (errorMessage)
                 throw Error('[copy-folder-cli] ' + errorMessage);
-            const filterEnabled = { ext: settings.fileExtensions && settings.fileExtensions.length > 0 };
-            const info = { skipped: 0 };
+            const filterOff = {
+                base: !settings.basename,
+                ext: !settings.fileExtensions || settings.fileExtensions.length === 0,
+            };
             const files = [];
             const filter = (origin, dest) => {
                 const isFile = fs_extra_1.default.statSync(origin).isFile();
-                const skip = isFile && filterEnabled.ext &&
-                    !settings.fileExtensions.includes(path_1.default.extname(origin));
-                if (skip)
-                    info.skipped++;
-                else if (isFile)
+                const keep = !isFile || ((filterOff.base || path_1.default.basename(origin).replace(/[.].*/, '') === settings.basename) &&
+                    (filterOff.ext || settings.fileExtensions.includes(path_1.default.extname(origin))));
+                if (isFile && keep)
                     files.push({
                         origin: origin.substring(source.length + 1),
                         dest: dest.substring(target.length + 1),
                     });
-                return !skip;
+                return keep;
             };
             fs_extra_1.default.copySync(source, target, { filter: filter });
             return {
                 source: source,
                 target: target,
                 count: files.length,
-                skipped: info.skipped,
                 duration: Date.now() - startTime,
                 files: files,
             };

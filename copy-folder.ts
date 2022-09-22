@@ -48,13 +48,6 @@ const copyFolder = {
       const files: Results["files"] = [];
       const filter = (origin: string, dest: string) => {
          const isFile = fs.statSync(origin).isFile();
-         if (isFile && !filterOff.base)
-            console.log(
-               origin,
-               path.basename(origin),
-               path.basename(origin).replace(/[.].*/, ''),
-               settings.basename,
-               path.basename(origin).replace(/[.].*/, '') === settings.basename);
          const keep = !isFile || (
             (filterOff.base || path.basename(origin).replace(/[.].*/, '') === settings.basename) &&
             (filterOff.ext ||  settings.fileExtensions.includes(path.extname(origin))));
