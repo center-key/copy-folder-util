@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.0 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.1 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -20,18 +20,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     const slash_1 = __importDefault(require("slash"));
     const copyFolder = {
         cp(sourceFolder, targetFolder, options) {
-            const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
-            const source = normalize(sourceFolder);
-            const target = normalize(targetFolder);
-            const startTime = Date.now();
             const defaults = {
                 fileExtensions: [],
             };
             const settings = Object.assign(Object.assign({}, defaults), options);
+            const startTime = Date.now();
+            const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
+            const source = normalize(sourceFolder);
+            const target = normalize(targetFolder);
             if (target)
                 fs_extra_1.default.ensureDirSync(target);
-            const errorMessage = !source ? 'Must specify the "source" folder path.' :
-                !target ? 'Must specify the "target" folder path.' :
+            const errorMessage = !source ? 'Must specify the source folder path.' :
+                !target ? 'Must specify the target folder path.' :
                     !fs_extra_1.default.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
                         !fs_extra_1.default.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
                             !fs_extra_1.default.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
@@ -39,15 +39,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                                     null;
             if (errorMessage)
                 throw Error('[copy-folder-cli] ' + errorMessage);
-            let skipped = 0;
+            const filterEnabled = { ext: settings.fileExtensions && settings.fileExtensions.length > 0 };
+            const info = { skipped: 0 };
             const files = [];
             const filter = (origin, dest) => {
-                const stats = fs_extra_1.default.statSync(origin);
-                const skip = stats.isFile() && settings.fileExtensions.length > 0 &&
+                const isFile = fs_extra_1.default.statSync(origin).isFile();
+                const skip = isFile && filterEnabled.ext &&
                     !settings.fileExtensions.includes(path_1.default.extname(origin));
                 if (skip)
-                    skipped++;
-                else if (!stats.isDirectory())
+                    info.skipped++;
+                else if (isFile)
                     files.push({
                         origin: origin.substring(source.length + 1),
                         dest: dest.substring(target.length + 1),
@@ -59,7 +60,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 source: source,
                 target: target,
                 count: files.length,
-                skipped: skipped,
+                skipped: info.skipped,
                 duration: Date.now() - startTime,
                 files: files,
             };

@@ -10,9 +10,9 @@
 //    },
 //
 // Usage from command line:
-//    $ npm install copy-folder-cli
-//    $ npx copy-folder build dist
-//    $ npx copy-folder src/web --ext=.js,.html docs
+//    $ npm install --global copy-folder-cli
+//    $ copy-folder build dist
+//    $ copy-folder src/web --ext=.js,.html docs
 //
 // Contributors to this project:
 //    $ cd copy-folder-cli

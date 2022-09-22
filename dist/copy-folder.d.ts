@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.0 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.1 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 export declare type Options = {
     fileExtensions?: string[];
@@ -15,6 +15,6 @@ export declare type Results = {
     }[];
 };
 declare const copyFolder: {
-    cp(sourceFolder: string, targetFolder: string, options: Options): Results;
+    cp(sourceFolder: string, targetFolder: string, options?: Options): Results;
 };
 export { copyFolder };
