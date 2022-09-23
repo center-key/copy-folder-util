@@ -1,7 +1,7 @@
 # copy-folder-cli
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
-_A recursive directory file copy utility designed for use in npm scripts_
+_Recursively copy a folder (CLI tool designed for use in npm scripts)_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-folder-cli/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-folder-cli.svg)](https://www.npmjs.com/package/copy-folder-cli)
@@ -75,8 +75,12 @@ See the **TypeScript Declaration File** file [copy-folder.d.ts](dist/copy-folder
 
 ---
 **Build Tools**
-   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Adds a header comment to a file and saves it to your distribution folder_
-   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _A file copy and rename cli tool designed for use in npm scripts_
-   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _A recursive directory file copy utility designed for use in npm scripts_
+   - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line header comment (with license notice) to distribution files_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file (CLI tool designed for use in npm scripts)_
+   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy a folder (CLI tool designed for use in npm scripts)_
+   - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
+
+Feel free to submit questions at:<br>
+[github.com/center-key/copy-folder-cli/issues](https://github.com/center-key/copy-folder-cli/issues)
 
 [MIT License](LICENSE.txt)

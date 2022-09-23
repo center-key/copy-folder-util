@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.2 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -22,17 +22,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         cp(sourceFolder, targetFolder, options) {
             const defaults = {
                 basename: null,
+                cd: null,
                 fileExtensions: [],
             };
             const settings = Object.assign(Object.assign({}, defaults), options);
             const startTime = Date.now();
             const normalize = (folder) => !folder ? '' : (0, slash_1.default)(path_1.default.normalize(folder)).replace(/\/$/, '');
-            const source = normalize(sourceFolder);
-            const target = normalize(targetFolder);
+            const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
+            const source = normalize(startFolder + sourceFolder);
+            const target = normalize(startFolder + targetFolder);
             if (target)
                 fs_extra_1.default.ensureDirSync(target);
-            const errorMessage = !source ? 'Must specify the source folder path.' :
-                !target ? 'Must specify the target folder path.' :
+            const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
+                !targetFolder ? 'Must specify the target folder path.' :
                     !fs_extra_1.default.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
                         !fs_extra_1.default.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
                             !fs_extra_1.default.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :

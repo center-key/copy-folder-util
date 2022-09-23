@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.2 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -7,17 +7,19 @@ const copyFolder = {
     cp(sourceFolder, targetFolder, options) {
         const defaults = {
             basename: null,
+            cd: null,
             fileExtensions: [],
         };
         const settings = Object.assign(Object.assign({}, defaults), options);
         const startTime = Date.now();
         const normalize = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-        const source = normalize(sourceFolder);
-        const target = normalize(targetFolder);
+        const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
+        const source = normalize(startFolder + sourceFolder);
+        const target = normalize(startFolder + targetFolder);
         if (target)
             fs.ensureDirSync(target);
-        const errorMessage = !source ? 'Must specify the source folder path.' :
-            !target ? 'Must specify the target folder path.' :
+        const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
+            !targetFolder ? 'Must specify the target folder path.' :
                 !fs.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
                     !fs.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
                         !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :

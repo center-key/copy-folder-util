@@ -1,7 +1,8 @@
-//! copy-folder-cli v0.1.2 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 export declare type Options = {
     basename?: string;
+    cd?: string;
     fileExtensions?: string[];
 };
 export declare type Results = {
