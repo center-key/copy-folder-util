@@ -6,6 +6,7 @@ import slash from 'slash';
 
 export type Options = {
    basename?:       string,    //filter files by filename ignoring the file extension
+   cd?:             string,    //change working directory before starting copy
    fileExtensions?: string[],  //filter files by file extensions, example: ['.js', '.css']
    };
 export type Results = {
@@ -21,19 +22,21 @@ const copyFolder = {
    cp(sourceFolder: string, targetFolder: string, options?: Options): Results {
       const defaults = {
          basename:       null,
+         cd:             null,
          fileExtensions: [],
          };
       const settings = { ...defaults, ...options };
       const startTime = Date.now();
       const normalize = (folder: string) =>
          !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-      const source = normalize(sourceFolder);
-      const target = normalize(targetFolder);
+      const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
+      const source =      normalize(startFolder + sourceFolder);
+      const target =      normalize(startFolder + targetFolder);
       if (target)
          fs.ensureDirSync(target);
       const errorMessage =
-         !source ?                            'Must specify the source folder path.' :
-         !target ?                            'Must specify the target folder path.' :
+         !sourceFolder ?                      'Must specify the source folder path.' :
+         !targetFolder ?                      'Must specify the target folder path.' :
          !fs.pathExistsSync(source) ?         'Source folder does not exist: ' + source :
          !fs.pathExistsSync(target) ?         'Target folder cannot be created: ' + target :
          !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :

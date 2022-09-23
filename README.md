@@ -60,12 +60,14 @@ See the **TypeScript Declaration File** file [copy-folder.d.ts](dist/copy-folder
 | Flag         | Description                                           | Value      |
 | ------------ | ----------------------------------------------------- | ---------- |
 | `--basename` | Filter files by filename ignoring the file extension. | **string** |
+| `--cd`       | Change working directory before starting copy.        | **string** |
 | `--ext`      | Filter files by file extension, such as `.js`.<br>Use a comma to specify multiple extensions. | **string** |
 | `--quiet`    | Suppress informational messages.                      | N/A        |
 | `--summary`  | Only print out the single line summary message.       | N/A        |
 
 ### Examples
    - `copy-folder build --basename=index dist`  &nbsp; Only copy files with filenames matching `index.*`.
+   - `copy-folder -cd=spec fixtures mock1`      &nbsp; Copy the folder **spec/fixtures** to **spec/mock1**.
    - `copy-folder build dist --summary`         &nbsp; Displays the summary but not the individual files copied.
    - `copy-folder src/web --ext=.js,.html docs` &nbsp; Copy only the JavaScript and HTML files to the **docs** folder.
 

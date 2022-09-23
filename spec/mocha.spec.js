@@ -82,10 +82,10 @@ describe('Calling copyFolder.cp() with no options', () => {
 describe('Calling copyFolder.cp() with the basename option', () => {
 
    it('set to undefined results in all files being copied', () => {
-      const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/basename';
-      copyFolder.cp(source, target, { basename: undefined });
-      const actual = readDirSyncRecursive(target);
+      const source = 'source';
+      const target = 'target/basename';
+      copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: undefined });
+      const actual = readDirSyncRecursive('spec/fixtures/target/basename');
       const expected = [
          'spec/fixtures/target/basename/mock1.html',
          'spec/fixtures/target/basename/mock1.js',
@@ -98,10 +98,10 @@ describe('Calling copyFolder.cp() with the basename option', () => {
       });
 
    it('set to "mock2" only copies the "mock2" files', () => {
-      const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/basename-mock2';
-      copyFolder.cp(source, target, { basename: 'mock2' });
-      const actual = readDirSyncRecursive(target);
+      const source = 'source';
+      const target = 'target/basename-mock2';
+      copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: 'mock2' });
+      const actual = readDirSyncRecursive('spec/fixtures/target/basename-mock2');
       const expected = [
          'spec/fixtures/target/basename-mock2/subfolder/mock2.html',
          'spec/fixtures/target/basename-mock2/subfolder/mock2.js',
@@ -116,10 +116,10 @@ describe('Calling copyFolder.cp() with the basename option', () => {
 describe('Calling copyFolder.cp() with the fileExtensions option', () => {
 
    it('set to undefined results in all files being copied', () => {
-      const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/ext';
-      copyFolder.cp(source, target, { fileExtensions: undefined });
-      const actual = readDirSyncRecursive(target);
+      const source = 'source';
+      const target = 'target/ext';
+      copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: undefined });
+      const actual = readDirSyncRecursive('spec/fixtures/target/ext');
       const expected = [
          'spec/fixtures/target/ext/mock1.html',
          'spec/fixtures/target/ext/mock1.js',
@@ -132,10 +132,10 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       });
 
    it('set to ".js" only copies the JavaScript files', () => {
-      const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/ext-js';
-      copyFolder.cp(source, target, { fileExtensions: ['.js'] });
-      const actual = readDirSyncRecursive(target);
+      const source = 'source';
+      const target = 'target/ext-js';
+      copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: ['.js'] });
+      const actual = readDirSyncRecursive('spec/fixtures/target/ext-js');
       const expected = [
          'spec/fixtures/target/ext-js/mock1.js',
          'spec/fixtures/target/ext-js/subfolder/mock2.js',

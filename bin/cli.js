@@ -18,16 +18,15 @@
 //    $ cd copy-folder-cli
 //    $ npm install
 //    $ npm test
-//    $ node bin/cli.js spec/fixtures/source --ext=.js spec/fixtures/target/js
+//    $ node bin/cli.js --cd=spec/fixtures source --ext=.js target/ext-js
 
 // Imports
-import { copyFolder }           from '../dist/copy-folder.js';
-import { existsSync, statSync } from 'fs';
-import chalk                    from 'chalk';
-import log                      from 'fancy-log';
+import { copyFolder } from '../dist/copy-folder.js';
+import chalk          from 'chalk';
+import log            from 'fancy-log';
 
 // Parameters
-const validFlags = ['ext', 'quiet', 'summary'];
+const validFlags = ['cd', 'ext', 'quiet', 'summary'];
 const args =       process.argv.slice(2);
 const flags =      args.filter(arg => /^--/.test(arg));
 const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
@@ -50,21 +49,17 @@ const printReport = (results, summaryOnly) => {
    };
 
 // Copy Folder
-const exit =        (message) => (console.error('[copy-folder]', message), process.exit(1));
 const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
-const isFolder =    existsSync(source) && statSync(source).isDirectory();
 const mode =        { quiet: 'quiet' in flagMap, summary: 'summary' in flagMap };
 const error =
-   invalidFlag ?         'Invalid flag: ' + invalidFlag :
-   !source ?             'Missing source folder.' :
-   !existsSync(source) ? 'Source folder does not exist: ' + source :
-   !isFolder ?           'Source is not a valid folder: ' + source :
-   !target ?             'Missing target folder.' :
-   params.length > 2 ?   'Extraneous parameter: ' + params[2] :
+   invalidFlag ?       'Invalid flag: ' + invalidFlag :
+   !source ?           'Missing source folder.' :
+   !target ?           'Missing target folder.' :
+   params.length > 2 ? 'Extraneous parameter: ' + params[2] :
    null;
 if (error)
-   exit(error);
-const options = { fileExtensions: flagMap.ext?.split(',') };
+   throw Error('[copy-folder] ' + error);
+const options = { cd: flagMap.cd ?? null, fileExtensions: flagMap.ext?.split(',') ?? [] };
 const results = copyFolder.cp(source, target, options);
 if (!mode.quiet)
    printReport(results, mode.summary);
