@@ -26,13 +26,17 @@ import chalk          from 'chalk';
 import log            from 'fancy-log';
 
 // Parameters
-const validFlags = ['cd', 'ext', 'quiet', 'summary'];
-const args =       process.argv.slice(2);
-const flags =      args.filter(arg => /^--/.test(arg));
-const flagMap =    Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
-const params =     args.filter(arg => !/^--/.test(arg));
-const source =     params[0];
-const target =     params[1];
+const validFlags =  ['cd', 'ext', 'quiet', 'summary'];
+const args =        process.argv.slice(2);
+const flags =       args.filter(arg => /^--/.test(arg));
+const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
+const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
+const params =      args.filter(arg => !/^--/.test(arg));
+
+// Data
+const source = params[0];
+const target = params[1];
+const mode =   { quiet: 'quiet' in flagMap, summary: 'summary' in flagMap };
 
 // Reporting
 const printReport = (results, summaryOnly) => {
@@ -49,8 +53,6 @@ const printReport = (results, summaryOnly) => {
    };
 
 // Copy Folder
-const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
-const mode =        { quiet: 'quiet' in flagMap, summary: 'summary' in flagMap };
 const error =
    invalidFlag ?       'Invalid flag: ' + invalidFlag :
    !source ?           'Missing source folder.' :
@@ -58,7 +60,7 @@ const error =
    params.length > 2 ? 'Extraneous parameter: ' + params[2] :
    null;
 if (error)
-   throw Error('[copy-folder] ' + error);
+   throw Error('[copy-folder-cli] ' + error);
 const options = { cd: flagMap.cd ?? null, fileExtensions: flagMap.ext?.split(',') ?? [] };
 const results = copyFolder.cp(source, target, options);
 if (!mode.quiet)

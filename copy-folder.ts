@@ -1,7 +1,7 @@
 // copy-folder-cli ~~ MIT License
 
-import fs from 'fs-extra';
-import path from 'path';
+import fs    from 'fs-extra';
+import path  from 'path';
 import slash from 'slash';
 
 export type Options = {
@@ -61,7 +61,7 @@ const copyFolder = {
                });
          return keep;
          };
-      fs.copySync(source, target, { filter: filter })
+      fs.copySync(source, target, { filter })
       return {
          source:   source,
          target:   target,
