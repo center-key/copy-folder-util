@@ -30,7 +30,6 @@ Example **package.json** scripts:
       "make-docs": "copy-folder src/web --ext=.html docs/api-manual"
    },
 ```
-
 Try out the first script with the command: `npm run make-dist`
 
 ### 2. Global

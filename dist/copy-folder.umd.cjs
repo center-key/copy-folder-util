@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.4 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -58,7 +58,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     });
                 return keep;
             };
-            fs_extra_1.default.copySync(source, target, { filter: filter });
+            fs_extra_1.default.copySync(source, target, { filter });
             return {
                 source: source,
                 target: target,

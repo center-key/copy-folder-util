@@ -40,7 +40,7 @@ const mode =   { quiet: 'quiet' in flagMap, summary: 'summary' in flagMap };
 
 // Reporting
 const printReport = (results, summaryOnly) => {
-   const name =      chalk.gray('copy-folder-cli');
+   const name =      chalk.gray('copy-folder');
    const source =    chalk.blue.bold(results.source);
    const target =    chalk.magenta(results.target);
    const arrow =     { big: chalk.gray.bold('➤➤➤'), little: chalk.gray.bold(' ⟹  ') };  //extra space for alignment

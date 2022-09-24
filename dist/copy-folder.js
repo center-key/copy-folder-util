@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.3 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.4 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -43,7 +43,7 @@ const copyFolder = {
                 });
             return keep;
         };
-        fs.copySync(source, target, { filter: filter });
+        fs.copySync(source, target, { filter });
         return {
             source: source,
             target: target,
