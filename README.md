@@ -10,6 +10,9 @@ _Recursively copy a folder (CLI tool designed for use in npm scripts)_
 
 **copy-folder-cli** takes a source folder and copies its files and subfolders to a new destination.  The console output includes a timestamp and formatting helpful in build systems.
 
+<img src=https://raw.githubusercontent.com/center-key/copy-folder-cli/main/screenshot.png
+width=800 alt=screenshot>
+
 ## A) Setup
 Install package for node:
 ```shell
@@ -31,9 +34,6 @@ Example **package.json** scripts:
    },
 ```
 Try out the first script with the command: `npm run make-dist`
-
-<img src=https://raw.githubusercontent.com/center-key/copy-folder-cli/main/screenshot.png
-width=800 alt=screenshot>
 
 ### 2. Global
 You can install **copy-folder-cli** globally and then run it anywhere directly from the terminal.
