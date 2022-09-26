@@ -3,25 +3,24 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
-import { join } from 'path';
 import { readdirSync, statSync } from 'fs';
 import assert from 'assert';
+import path from 'path';
 import slash from 'slash';
 
 // Setup
 import { copyFolder } from '../dist/copy-folder.js';
 
 // Utilities
-const readDirSync = (folder) => readdirSync(folder).map(file => slash(file)).sort();
-const readDirSyncRecursive = (folder, files) => {
-   files = files ?? [];
-   const process = (file) => {
-      if (statSync(folder + '/' + file).isDirectory())
-         files = readDirSyncRecursive(folder + '/' + file, files);
+const readDirSyncRecursive = (folder) => {
+   const files = [];
+   const process = (item) => {
+      if (statSync(item).isFile())
+         files.push(slash(item));
       else
-         files.push(slash(join(folder, '/', file)));
+         readdirSync(item).forEach(nestedItem => process(path.join(item, nestedItem)));
       };
-   readdirSync(folder).forEach(process);
+   process(path.normalize(folder));
    return files.sort();
    };
 
@@ -29,7 +28,7 @@ const readDirSyncRecursive = (folder, files) => {
 describe('The "dist" folder', () => {
 
    it('contains the correct files', () => {
-      const actual = readDirSync('dist');
+      const actual = readdirSync('dist');
       const expected = [
          'copy-folder.d.ts',
          'copy-folder.js',
