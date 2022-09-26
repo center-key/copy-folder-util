@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.4 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.5 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 import fs from 'fs-extra';
 import path from 'path';
@@ -16,7 +16,7 @@ const copyFolder = {
         const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
         const source = normalize(startFolder + sourceFolder);
         const target = normalize(startFolder + targetFolder);
-        if (target)
+        if (targetFolder)
             fs.ensureDirSync(target);
         const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
             !targetFolder ? 'Must specify the target folder path.' :

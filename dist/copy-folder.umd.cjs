@@ -1,4 +1,4 @@
-//! copy-folder-cli v0.1.4 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-cli v0.1.5 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -31,7 +31,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
             const source = normalize(startFolder + sourceFolder);
             const target = normalize(startFolder + targetFolder);
-            if (target)
+            if (targetFolder)
                 fs_extra_1.default.ensureDirSync(target);
             const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
                 !targetFolder ? 'Must specify the target folder path.' :
