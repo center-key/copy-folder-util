@@ -4,11 +4,12 @@ import fs    from 'fs-extra';
 import path  from 'path';
 import slash from 'slash';
 
-export type Options = {
-   basename?:       string,    //filter files by filename ignoring the file extension
-   cd?:             string,    //change working directory before starting copy
-   fileExtensions?: string[],  //filter files by file extensions, example: ['.js', '.css']
+export type Settings = {
+   basename:       string,    //filter files by filename ignoring the file extension
+   cd:             string,    //change working directory before starting copy
+   fileExtensions: string[],  //filter files by file extensions, example: ['.js', '.css']
    };
+export type Options = Partial<Settings>;
 export type Results = {
    source:   string,  //path of origination folder
    target:   string,  //path of destination folder
