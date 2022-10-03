@@ -9,13 +9,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "fs-extra", "path", "slash"], factory);
+        define(["require", "exports", "fs", "path", "slash"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.copyFolder = void 0;
-    const fs_extra_1 = __importDefault(require("fs-extra"));
+    const fs_1 = __importDefault(require("fs"));
     const path_1 = __importDefault(require("path"));
     const slash_1 = __importDefault(require("slash"));
     const copyFolder = {
@@ -32,13 +32,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             const source = normalize(startFolder + sourceFolder);
             const target = normalize(startFolder + targetFolder);
             if (targetFolder)
-                fs_extra_1.default.ensureDirSync(target);
+                fs_1.default.mkdirSync(target, { recursive: true });
             const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
                 !targetFolder ? 'Must specify the target folder path.' :
-                    !fs_extra_1.default.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
-                        !fs_extra_1.default.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
-                            !fs_extra_1.default.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
-                                !fs_extra_1.default.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
+                    !fs_1.default.existsSync(source) ? 'Source folder does not exist: ' + source :
+                        !fs_1.default.existsSync(target) ? 'Target folder cannot be created: ' + target :
+                            !fs_1.default.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
+                                !fs_1.default.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
                                     null;
             if (errorMessage)
                 throw Error('[copy-folder-cli] ' + errorMessage);
@@ -48,7 +48,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             };
             const files = [];
             const filter = (origin, dest) => {
-                const isFile = fs_extra_1.default.statSync(origin).isFile();
+                const isFile = fs_1.default.statSync(origin).isFile();
                 const keep = !isFile || ((filterOff.base || path_1.default.basename(origin).replace(/[.].*/, '') === settings.basename) &&
                     (filterOff.ext || settings.fileExtensions.includes(path_1.default.extname(origin))));
                 if (isFile && keep)
@@ -58,7 +58,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     });
                 return keep;
             };
-            fs_extra_1.default.copySync(source, target, { filter });
+            fs_1.default.cpSync(source, target, { filter: filter, recursive: true });
             return {
                 source: source,
                 target: target,

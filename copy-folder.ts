@@ -1,6 +1,6 @@
 // copy-folder-cli ~~ MIT License
 
-import fs    from 'fs-extra';
+import fs    from 'fs';
 import path  from 'path';
 import slash from 'slash';
 
@@ -34,12 +34,12 @@ const copyFolder = {
       const source =      normalize(startFolder + sourceFolder);
       const target =      normalize(startFolder + targetFolder);
       if (targetFolder)
-         fs.ensureDirSync(target);
+         fs.mkdirSync(target, { recursive: true });
       const errorMessage =
          !sourceFolder ?                      'Must specify the source folder path.' :
          !targetFolder ?                      'Must specify the target folder path.' :
-         !fs.pathExistsSync(source) ?         'Source folder does not exist: ' + source :
-         !fs.pathExistsSync(target) ?         'Target folder cannot be created: ' + target :
+         !fs.existsSync(source) ?             'Source folder does not exist: ' + source :
+         !fs.existsSync(target) ?             'Target folder cannot be created: ' + target :
          !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
          !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
          null;
@@ -62,7 +62,7 @@ const copyFolder = {
                });
          return keep;
          };
-      fs.copySync(source, target, { filter })
+      fs.cpSync(source, target, { filter: filter, recursive: true })
       return {
          source:   source,
          target:   target,

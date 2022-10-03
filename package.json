@@ -80,22 +80,21 @@
    "dependencies": {
       "chalk": "~5.0",
       "fancy-log": "~2.0",
-      "fs-extra": "~10.1",
-      "slash": "~4.0"
+      "slash": "~5.0"
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/fs-extra": "~9.0",
-      "@types/node": "~18.7",
-      "@typescript-eslint/eslint-plugin": "~5.38",
-      "@typescript-eslint/parser": "~5.38",
-      "add-dist-header": "~0.2",
+      "@types/node": "~18.8",
+      "@typescript-eslint/eslint-plugin": "~5.39",
+      "@typescript-eslint/parser": "~5.39",
+      "add-dist-header": "~0.3",
       "assert-deep-strict-equal": "~1.0",
       "copy-file-util": "~0.1",
       "eslint": "~8.24",
       "jshint": "~2.13",
       "mocha": "~10.0",
       "npm-run-all2": "~6.0",
+      "rev-web-assets": "~0.1",
       "rimraf": "~3.0",
       "typescript": "~4.8"
    }
