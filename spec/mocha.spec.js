@@ -1,4 +1,4 @@
-// copy-folder-cli
+// copy-folder-util
 // Mocha Specification Suite
 
 // Imports
@@ -135,13 +135,13 @@ describe('Correct error is thrown', () => {
 
    it('when the "source" folder is missing', () => {
       const makeBogusCall = () => copyFolder.cp();
-      const exception =     { message: '[copy-folder-cli] Must specify the source folder path.' };
+      const exception =     { message: '[copy-folder-util] Must specify the source folder path.' };
       assert.throws(makeBogusCall, exception);
       });
 
    it('when the "target" folder is missing', () => {
       const makeBogusCall = () => copyFolder.cp('/source-folder');
-      const exception =     { message: '[copy-folder-cli] Must specify the target folder path.' };
+      const exception =     { message: '[copy-folder-util] Must specify the target folder path.' };
       assert.throws(makeBogusCall, exception);
       });
 

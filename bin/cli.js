@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-/////////////////////
-// copy-folder-cli //
-// MIT License     //
-/////////////////////
+//////////////////////
+// copy-folder-util //
+// MIT License      //
+//////////////////////
 
 // Usage in package.json:
 //    "scripts": {
@@ -10,12 +10,12 @@
 //    },
 //
 // Usage from command line:
-//    $ npm install --global copy-folder-cli
+//    $ npm install --global copy-folder-util
 //    $ copy-folder build dist
 //    $ copy-folder src/web --ext=.js,.html docs
 //
 // Contributors to this project:
-//    $ cd copy-folder-cli
+//    $ cd copy-folder-util
 //    $ npm install
 //    $ npm test
 //    $ node bin/cli.js --cd=spec/fixtures source --ext=.js target/ext-js
@@ -60,7 +60,7 @@ const error =
    params.length > 2 ? 'Extraneous parameter: ' + params[2] :
    null;
 if (error)
-   throw Error('[copy-folder-cli] ' + error);
+   throw Error('[copy-folder-util] ' + error);
 const options = {
    cd:             flagMap.cd ?? null,
    fileExtensions: flagMap.ext?.split(',') ?? [],

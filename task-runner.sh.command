@@ -1,13 +1,13 @@
 #!/bin/bash
 ###################
 # Task Runner     #
-# copy-folder-cli #
+# copy-folder-util #
 ###################
 
 # To make this file runnable:
 #     $ chmod +x *.sh.command
 
-banner="copy-folder-cli"
+banner="copy-folder-util"
 projectHome=$(cd $(dirname $0); pwd)
 
 setupTools() {

@@ -1,5 +1,5 @@
 {
-   "name": "copy-folder-cli",
+   "name": "copy-folder-util",
    "version": "0.1.5",
    "description": "Recursively copy a folder (CLI tool designed for use in npm scripts)",
    "license": "MIT",
@@ -19,12 +19,12 @@
    },
    "bin": {
       "copy-folder": "bin/cli.js",
-      "copy-folder-cli": "bin/cli.js"
+      "copy-folder-util": "bin/cli.js"
    },
-   "repository": "github:center-key/copy-folder-cli",
-   "homepage": "https://github.com/center-key/copy-folder-cli",
-   "bugs": "https://github.com/center-key/copy-folder-cli/issues",
-   "docs": "https://github.com/center-key/copy-folder-cli#readme",
+   "repository": "github:center-key/copy-folder-util",
+   "homepage": "https://github.com/center-key/copy-folder-util",
+   "bugs": "https://github.com/center-key/copy-folder-util/issues",
+   "docs": "https://github.com/center-key/copy-folder-util#readme",
    "author": "Center Key (https://centerkey.com)",
    "keywords": [
       "cli",

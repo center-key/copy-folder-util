@@ -1,4 +1,4 @@
-// copy-folder-cli ~~ MIT License
+// copy-folder-util ~~ MIT License
 
 import fs    from 'fs';
 import path  from 'path';
@@ -47,7 +47,7 @@ const copyFolder = {
          !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
          null;
       if (errorMessage)
-         throw Error('[copy-folder-cli] ' + errorMessage);
+         throw Error('[copy-folder-util] ' + errorMessage);
       const filterOff = {
          base: !settings.basename,
          ext:  !settings.fileExtensions || settings.fileExtensions.length === 0,

@@ -1,23 +1,23 @@
-# copy-folder-cli
+# copy-folder-util
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
 _Recursively copy a folder (CLI tool designed for use in npm scripts)_
 
-[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-folder-cli/blob/main/LICENSE.txt)
-[![npm](https://img.shields.io/npm/v/copy-folder-cli.svg)](https://www.npmjs.com/package/copy-folder-cli)
-[![Vulnerabilities](https://snyk.io/test/github/center-key/copy-folder-cli/badge.svg)](https://snyk.io/test/github/center-key/copy-folder-cli)
-[![Build](https://github.com/center-key/copy-folder-cli/workflows/build/badge.svg)](https://github.com/center-key/copy-folder-cli/actions/workflows/run-spec-on-push.yaml)
+[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-folder-util/blob/main/LICENSE.txt)
+[![npm](https://img.shields.io/npm/v/copy-folder-util.svg)](https://www.npmjs.com/package/copy-folder-util)
+[![Vulnerabilities](https://snyk.io/test/github/center-key/copy-folder-util/badge.svg)](https://snyk.io/test/github/center-key/copy-folder-util)
+[![Build](https://github.com/center-key/copy-folder-util/workflows/build/badge.svg)](https://github.com/center-key/copy-folder-util/actions/workflows/run-spec-on-push.yaml)
 
-**copy-folder-cli** takes a source folder and copies its files and subfolders to a new destination.&nbsp;
+**copy-folder-util** takes a source folder and copies its files and subfolders to a new destination.&nbsp;
 The command's console output includes a timestamp and formatting helpful in build systems.
 
-<img src=https://raw.githubusercontent.com/center-key/copy-folder-cli/main/screenshot.png
+<img src=https://raw.githubusercontent.com/center-key/copy-folder-util/main/screenshot.png
 width=800 alt=screenshot>
 
 ## A) Setup
 Install package for node:
 ```shell
-$ npm install --save-dev copy-folder-cli
+$ npm install --save-dev copy-folder-util
 ```
 
 ## B) Usage
@@ -38,11 +38,11 @@ Example **package.json** scripts:
 Try out the first script with the command: `npm run make-dist`
 
 ### 2. Global
-You can install **copy-folder-cli** globally and then run it anywhere directly from the terminal.
+You can install **copy-folder-util** globally and then run it anywhere directly from the terminal.
 
 Example terminal commands:
 ```shell
-$ npm install --global copy-folder-cli
+$ npm install --global copy-folder-util
 $ copy-folder src/web ext=.html docs/api-manual
 ```
 
@@ -63,11 +63,11 @@ Examples:
    - `copy-folder src/web --ext=.js,.html docs` &nbsp; Copy only the JavaScript and HTML files to the **docs** folder.
 
 ## C) Application Code
-Even though **copy-folder-cli** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
+Even though **copy-folder-util** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
 
 Example:
 ``` typescript
-import { copyFolder } from 'copy-folder-cli';
+import { copyFolder } from 'copy-folder-util';
 const options = { fileExtensions: ['.html', '.js'] };
 const results = copyFolder.cp('src/web', 'docs/api-manual', options);
 console.log('Number of files copied:', results.count);
@@ -81,12 +81,12 @@ See the **TypeScript Declarations** at the top of [copy-folder.ts](copy-folder.t
 **CLI Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file_
-   - 📂 [copy-folder-cli](https://github.com/center-key/copy-folder-cli):&nbsp; _Recursively copy the files in a folder_
+   - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy the files in a folder_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 
 Feel free to submit questions at:<br>
-[github.com/center-key/copy-folder-cli/issues](https://github.com/center-key/copy-folder-cli/issues)
+[github.com/center-key/copy-folder-util/issues](https://github.com/center-key/copy-folder-util/issues)
 
 [MIT License](LICENSE.txt)
