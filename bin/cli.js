@@ -22,24 +22,24 @@
 
 // Imports
 import { copyFolder } from '../dist/copy-folder.js';
-import chalk          from 'chalk';
-import log            from 'fancy-log';
+import chalk from 'chalk';
+import log   from 'fancy-log';
 
 // Parameters
 const validFlags =  ['cd', 'ext', 'quiet', 'summary'];
 const args =        process.argv.slice(2);
 const flags =       args.filter(arg => /^--/.test(arg));
 const flagMap =     Object.fromEntries(flags.map(flag => flag.replace(/^--/, '').split('=')));
+const flagOn =      Object.fromEntries(validFlags.map(flag => [flag, flag in flagMap]));
 const invalidFlag = Object.keys(flagMap).find(key => !validFlags.includes(key));
 const params =      args.filter(arg => !/^--/.test(arg));
 
 // Data
 const source = params[0];
 const target = params[1];
-const mode =   { quiet: 'quiet' in flagMap, summary: 'summary' in flagMap };
 
 // Reporting
-const printReport = (results, summaryOnly) => {
+const printReport = (results) => {
    const name =      chalk.gray('copy-folder');
    const source =    chalk.blue.bold(results.source);
    const target =    chalk.magenta(results.target);
@@ -48,7 +48,7 @@ const printReport = (results, summaryOnly) => {
    const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
    const logFile =   (file) => log(name, chalk.white(file.origin), arrow.little, chalk.green(file.dest));
    log(name, source, arrow.big, target, info);
-   if (!summaryOnly)
+   if (!flagOn.summary)
       results.files.forEach(logFile);
    };
 
@@ -61,7 +61,10 @@ const error =
    null;
 if (error)
    throw Error('[copy-folder-cli] ' + error);
-const options = { cd: flagMap.cd ?? null, fileExtensions: flagMap.ext?.split(',') ?? [] };
+const options = {
+   cd:             flagMap.cd ?? null,
+   fileExtensions: flagMap.ext?.split(',') ?? [],
+   };
 const results = copyFolder.cp(source, target, options);
-if (!mode.quiet)
-   printReport(results, mode.summary);
+if (!flagOn.quiet)
+   printReport(results);
