@@ -1,10 +1,11 @@
-//! copy-folder-cli v0.1.5 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-util v0.2.0 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
-export declare type Options = {
-    basename?: string;
-    cd?: string;
-    fileExtensions?: string[];
+export declare type Settings = {
+    basename: string;
+    cd: string;
+    fileExtensions: string[];
 };
+export declare type Options = Partial<Settings>;
 export declare type Results = {
     source: string;
     target: string;

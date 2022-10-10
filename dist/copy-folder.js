@@ -1,8 +1,10 @@
-//! copy-folder-cli v0.1.5 ~~ https://github.com/center-key/copy-folder-cli ~~ MIT License
+//! copy-folder-util v0.2.0 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
-import fs from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 import slash from 'slash';
+const extraneousFiles = ['.DS_Store', 'Thumbs.db', 'desktop.ini'];
+const extraneousFolders = ['.git', 'node_modules'];
 const copyFolder = {
     cp(sourceFolder, targetFolder, options) {
         const defaults = {
@@ -17,16 +19,16 @@ const copyFolder = {
         const source = normalize(startFolder + sourceFolder);
         const target = normalize(startFolder + targetFolder);
         if (targetFolder)
-            fs.ensureDirSync(target);
+            fs.mkdirSync(target, { recursive: true });
         const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
             !targetFolder ? 'Must specify the target folder path.' :
-                !fs.pathExistsSync(source) ? 'Source folder does not exist: ' + source :
-                    !fs.pathExistsSync(target) ? 'Target folder cannot be created: ' + target :
+                !fs.existsSync(source) ? 'Source folder does not exist: ' + source :
+                    !fs.existsSync(target) ? 'Target folder cannot be created: ' + target :
                         !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
                             !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
                                 null;
         if (errorMessage)
-            throw Error('[copy-folder-cli] ' + errorMessage);
+            throw Error('[copy-folder-util] ' + errorMessage);
         const filterOff = {
             base: !settings.basename,
             ext: !settings.fileExtensions || settings.fileExtensions.length === 0,
@@ -34,16 +36,21 @@ const copyFolder = {
         const files = [];
         const filter = (origin, dest) => {
             const isFile = fs.statSync(origin).isFile();
-            const keep = !isFile || ((filterOff.base || path.basename(origin).replace(/[.].*/, '') === settings.basename) &&
-                (filterOff.ext || settings.fileExtensions.includes(path.extname(origin))));
-            if (isFile && keep)
+            const name = path.basename(origin);
+            const ext = path.extname(origin);
+            const keepFolder = !isFile && !extraneousFolders.includes(name);
+            const keepFile = isFile &&
+                (filterOff.base || name.replace(/[.].*/, '') === settings.basename) &&
+                (filterOff.ext || settings.fileExtensions.includes(ext)) &&
+                !extraneousFiles.includes(name);
+            if (keepFile)
                 files.push({
                     origin: origin.substring(source.length + 1),
                     dest: dest.substring(target.length + 1),
                 });
-            return keep;
+            return keepFolder || keepFile;
         };
-        fs.copySync(source, target, { filter });
+        fs.cpSync(source, target, { filter: filter, recursive: true });
         return {
             source: source,
             target: target,
