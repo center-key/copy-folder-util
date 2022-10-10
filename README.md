@@ -1,7 +1,7 @@
 # copy-folder-util
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
-_Recursively copy a folder (CLI tool designed for use in npm scripts)_
+_Recursively copy files from one folder to another folder (CLI tool designed for use in npm scripts)_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-folder-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-folder-util.svg)](https://www.npmjs.com/package/copy-folder-util)
@@ -81,7 +81,7 @@ See the **TypeScript Declarations** at the top of [copy-folder.ts](copy-folder.t
 **CLI Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
    - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file_
-   - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy the files in a folder_
+   - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
