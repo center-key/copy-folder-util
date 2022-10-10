@@ -15,8 +15,11 @@ export type Results = {
    target:   string,  //path of destination folder
    count:    number,  //number of files copied
    duration: number,  //execution time in milliseconds
-   files:   { origin: string, dest: string }[],
+   files:    { origin: string, dest: string }[],
    };
+
+const extraneousFiles =   ['.DS_Store', 'Thumbs.db', 'desktop.ini'];
+const extraneousFolders = ['.git', 'node_modules'];
 
 const copyFolder = {
 
@@ -51,16 +54,20 @@ const copyFolder = {
          };
       const files: Results["files"] = [];
       const filter = (origin: string, dest: string) => {
-         const isFile = fs.statSync(origin).isFile();
-         const keep = !isFile || (
-            (filterOff.base || path.basename(origin).replace(/[.].*/, '') === settings.basename) &&
-            (filterOff.ext ||  settings.fileExtensions.includes(path.extname(origin))));
-         if (isFile && keep)
+         const isFile =     fs.statSync(origin).isFile();
+         const name =       path.basename(origin);
+         const ext =        path.extname(origin);
+         const keepFolder = !isFile && !extraneousFolders.includes(name);
+         const keepFile = isFile &&
+            (filterOff.base || name.replace(/[.].*/, '') === settings.basename) &&
+            (filterOff.ext ||  settings.fileExtensions.includes(ext)) &&
+            !extraneousFiles.includes(name);
+         if (keepFile)
             files.push({
                origin: origin.substring(source.length + 1),
                dest:   dest.substring(target.length + 1),
                });
-         return keep;
+         return keepFolder || keepFile;
          };
       fs.cpSync(source, target, { filter: filter, recursive: true })
       return {
