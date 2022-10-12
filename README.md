@@ -35,7 +35,6 @@ Example **package.json** scripts:
       "make-docs": "copy-folder src/web --ext=.html docs/api-manual"
    },
 ```
-Try out the first script with the command: `npm run make-dist`
 
 ### 2. Global
 You can install **copy-folder-util** globally and then run it anywhere directly from the terminal.
@@ -80,7 +79,7 @@ See the **TypeScript Declarations** at the top of [copy-folder.ts](copy-folder.t
 ---
 **CLI Build Tools**
    - 🎋 [add-dist-header](https://github.com/center-key/add-dist-header):&nbsp; _Prepend a one-line banner comment (with license notice) to distribution files_
-   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file_
+   - 📄 [copy-file-util](https://github.com/center-key/copy-file-util):&nbsp; _Copy or rename a file with optional package version number_
    - 📂 [copy-folder-util](https://github.com/center-key/copy-folder-util):&nbsp; _Recursively copy files from one folder to another folder_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
