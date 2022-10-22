@@ -53,6 +53,9 @@ const copyFolder = {
          ext:  !settings.fileExtensions || settings.fileExtensions.length === 0,
          };
       const files: Results["files"] = [];
+      const posixPath = (nativePath: string) => slash(nativePath.replace(/.*:/, ''));
+      const relativePath = (fullPath: string, start: string): string =>
+         fullPath.substring(fullPath.indexOf(start) + start.length + 1);
       const filter = (origin: string, dest: string) => {
          const isFile =     fs.statSync(origin).isFile();
          const name =       path.basename(origin);
@@ -64,8 +67,8 @@ const copyFolder = {
             !extraneousFiles.includes(name);
          if (keepFile)
             files.push({
-               origin: origin.substring(source.length + 1),
-               dest:   dest.substring(target.length + 1),
+               origin: relativePath(posixPath(origin), source),
+               dest:   relativePath(posixPath(dest),   target),
                });
          return keepFolder || keepFile;
          };
