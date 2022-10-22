@@ -1,4 +1,4 @@
-//! copy-folder-util v0.2.0 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v0.2.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import fs from 'fs';
 import path from 'path';
@@ -34,6 +34,8 @@ const copyFolder = {
             ext: !settings.fileExtensions || settings.fileExtensions.length === 0,
         };
         const files = [];
+        const posixPath = (nativePath) => slash(nativePath.replace(/.*:/, ''));
+        const relativePath = (fullPath, start) => fullPath.substring(fullPath.indexOf(start) + start.length + 1);
         const filter = (origin, dest) => {
             const isFile = fs.statSync(origin).isFile();
             const name = path.basename(origin);
@@ -45,8 +47,8 @@ const copyFolder = {
                 !extraneousFiles.includes(name);
             if (keepFile)
                 files.push({
-                    origin: origin.substring(source.length + 1),
-                    dest: dest.substring(target.length + 1),
+                    origin: relativePath(posixPath(origin), source),
+                    dest: relativePath(posixPath(dest), target),
                 });
             return keepFolder || keepFile;
         };

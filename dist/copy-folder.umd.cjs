@@ -1,4 +1,4 @@
-//! copy-folder-util v0.2.0 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v0.2.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -49,6 +49,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 ext: !settings.fileExtensions || settings.fileExtensions.length === 0,
             };
             const files = [];
+            const posixPath = (nativePath) => (0, slash_1.default)(nativePath.replace(/.*:/, ''));
+            const relativePath = (fullPath, start) => fullPath.substring(fullPath.indexOf(start) + start.length + 1);
             const filter = (origin, dest) => {
                 const isFile = fs_1.default.statSync(origin).isFile();
                 const name = path_1.default.basename(origin);
@@ -60,8 +62,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     !extraneousFiles.includes(name);
                 if (keepFile)
                     files.push({
-                        origin: origin.substring(source.length + 1),
-                        dest: dest.substring(target.length + 1),
+                        origin: relativePath(posixPath(origin), source),
+                        dest: relativePath(posixPath(dest), target),
                     });
                 return keepFolder || keepFile;
             };
