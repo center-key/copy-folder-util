@@ -1,4 +1,4 @@
-//! copy-folder-util v0.2.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v0.2.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import fs from 'fs';
 import path from 'path';

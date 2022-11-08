@@ -1,4 +1,4 @@
-//! copy-folder-util v0.2.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v0.2.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
