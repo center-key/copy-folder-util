@@ -1,12 +1,12 @@
-//! copy-folder-util v0.2.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v0.2.3 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
-export declare type Settings = {
+export type Settings = {
     basename: string;
     cd: string;
     fileExtensions: string[];
 };
-export declare type Options = Partial<Settings>;
-export declare type Results = {
+export type Options = Partial<Settings>;
+export type Results = {
     source: string;
     target: string;
     count: number;
