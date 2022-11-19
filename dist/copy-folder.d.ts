@@ -1,4 +1,4 @@
-//! copy-folder-util v0.2.3 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v0.2.4 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 export type Settings = {
     basename: string;
