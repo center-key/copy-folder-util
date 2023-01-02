@@ -45,7 +45,7 @@ $ npm install --global copy-folder-util
 $ copy-folder src/web ext=.html docs/api-manual
 ```
 
-### 3. CLI Flags
+### 3. CLI flags
 Command-line flags:
 | Flag         | Description                                           | Value      |
 | ------------ | ----------------------------------------------------- | ---------- |
