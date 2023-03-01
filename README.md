@@ -57,10 +57,17 @@ Command-line flags:
 | `--summary`  | Only print out the single line summary message.       | N/A        |
 
 Examples:
-   - `copy-folder build --basename=index dist`  &nbsp; Only copy files with filenames matching `index.*`.
-   - `copy-folder -cd=spec fixtures mock1`      &nbsp; Copy the folder **spec/fixtures** to **spec/mock1**.
-   - `copy-folder build dist --summary`         &nbsp; Displays the summary but not the individual files copied.
-   - `copy-folder src/web --ext=.js,.html docs` &nbsp; Copy only the JavaScript and HTML files to the **docs** folder.
+   - `copy-folder build --basename=index dist` <br>
+   Only copy files with filenames matching `index.*`.
+
+   - `copy-folder -cd=spec fixtures mock1`<br>
+   Copy the folder **spec/fixtures** to **spec/mock1**.
+
+   - `copy-folder build dist --summary`<br>
+   Displays the summary but not the individual files copied.
+
+   - `copy-folder src/web --ext=.js,.html docs`<br>
+   Copy only the JavaScript and HTML files to the **docs** folder.
 
 ## C) Application Code
 Even though **copy-folder-util** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
