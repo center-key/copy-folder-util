@@ -3,12 +3,14 @@
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
+import { execSync } from 'node:child_process';
 import { revWebAssets } from 'rev-web-assets';
 import assert from 'assert';
 import fs from     'fs';
 
 // Setup
 import { copyFolder } from '../dist/copy-folder.js';
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 
 ////////////////////////////////////////////////////////////////////////////////
 describe('The "dist" folder', () => {
@@ -143,6 +145,25 @@ describe('Correct error is thrown', () => {
       const makeBogusCall = () => copyFolder.cp('/source-folder');
       const exception =     { message: '[copy-folder-util] Must specify the target folder path.' };
       assert.throws(makeBogusCall, exception);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////
+describe('Executing the CLI', () => {
+   const run = (posix) => {
+      const name =    Object.keys(pkg.bin).sort()[0];
+      const command = process.platform === 'win32' ? posix.replaceAll('\\ ', '" "') : posix;
+      execSync(command.replace(name, 'node bin/cli.js'), { stdio: 'inherit' });
+      };
+
+   it('with basic parameters creates the expected new menu file', () => {
+      run('copy-folder --cd=spec/fixtures/source subfolder --ext=.css ../target/cli');
+      const actual = revWebAssets.readFolderRecursive('spec/fixtures/target/cli');
+      const expected = [
+         'spec/fixtures/target/cli/mock2.min.css',
+         ];
+      assertDeepStrictEqual(actual, expected);
       });
 
    });
