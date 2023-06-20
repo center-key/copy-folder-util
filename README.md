@@ -75,6 +75,7 @@ Even though **copy-folder-util** is primarily intended for build scripts, the pa
 Example:
 ``` typescript
 import { copyFolder } from 'copy-folder-util';
+
 const options = { fileExtensions: ['.html', '.js'] };
 const results = copyFolder.cp('src/web', 'docs/api-manual', options);
 console.log('Number of files copied:', results.count);
