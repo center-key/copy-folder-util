@@ -1,6 +1,6 @@
 {
    "name": "copy-folder-util",
-   "version": "1.0.0",
+   "version": "1.1.0",
    "description": "Recursively copy files from one folder to another folder (CLI tool designed for use in npm scripts)",
    "license": "MIT",
    "type": "module",
@@ -93,7 +93,7 @@
       "@typescript-eslint/parser": "~5.60",
       "add-dist-header": "~1.0",
       "assert-deep-strict-equal": "~1.0",
-      "copy-file-util": "~1.0",
+      "copy-file-util": "~1.1",
       "eslint": "~8.43",
       "jshint": "~2.13",
       "mocha": "~10.2",
