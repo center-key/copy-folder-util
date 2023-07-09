@@ -5,7 +5,6 @@ _Recursively copy files from one folder to another folder (CLI tool designed for
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-folder-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-folder-util.svg)](https://www.npmjs.com/package/copy-folder-util)
-[![Vulnerabilities](https://snyk.io/test/github/center-key/copy-folder-util/badge.svg)](https://snyk.io/test/github/center-key/copy-folder-util)
 [![Build](https://github.com/center-key/copy-folder-util/workflows/build/badge.svg)](https://github.com/center-key/copy-folder-util/actions/workflows/run-spec-on-push.yaml)
 
 **copy-folder-util** takes a source folder and copies its files and subfolders to a new destination.&nbsp;
