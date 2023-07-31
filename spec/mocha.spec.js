@@ -4,7 +4,6 @@
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { cliArgvUtil } from 'cli-argv-util';
-import { revWebAssets } from 'rev-web-assets';
 import assert from 'assert';
 import fs from     'fs';
 
@@ -50,14 +49,15 @@ describe('Calling copyFolder.cp() with no options', () => {
       const source = 'spec/fixtures/source';
       const target = 'spec/fixtures/target/default';
       copyFolder.cp(source, target);
-      const actual = revWebAssets.readFolderRecursive(target);
+      const actual = fs.readdirSync(target, { recursive: true }).sort();
       const expected = [
-         'spec/fixtures/target/default/mock1.html',
-         'spec/fixtures/target/default/mock1.js',
-         'spec/fixtures/target/default/mock1.min.css',
-         'spec/fixtures/target/default/subfolder/mock2.html',
-         'spec/fixtures/target/default/subfolder/mock2.js',
-         'spec/fixtures/target/default/subfolder/mock2.min.css',
+         'mock1.html',
+         'mock1.js',
+         'mock1.min.css',
+         'subfolder',
+         'subfolder/mock2.html',
+         'subfolder/mock2.js',
+         'subfolder/mock2.min.css',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -71,14 +71,15 @@ describe('Calling copyFolder.cp() with the basename option', () => {
       const source = 'source';
       const target = 'target/basename';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: undefined });
-      const actual = revWebAssets.readFolderRecursive('spec/fixtures/target/basename');
+      const actual = fs.readdirSync('spec/fixtures/target/basename', { recursive: true }).sort();
       const expected = [
-         'spec/fixtures/target/basename/mock1.html',
-         'spec/fixtures/target/basename/mock1.js',
-         'spec/fixtures/target/basename/mock1.min.css',
-         'spec/fixtures/target/basename/subfolder/mock2.html',
-         'spec/fixtures/target/basename/subfolder/mock2.js',
-         'spec/fixtures/target/basename/subfolder/mock2.min.css',
+         'mock1.html',
+         'mock1.js',
+         'mock1.min.css',
+         'subfolder',
+         'subfolder/mock2.html',
+         'subfolder/mock2.js',
+         'subfolder/mock2.min.css',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -87,11 +88,12 @@ describe('Calling copyFolder.cp() with the basename option', () => {
       const source = 'source';
       const target = 'target/basename-mock2';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: 'mock2' });
-      const actual = revWebAssets.readFolderRecursive('spec/fixtures/target/basename-mock2');
+      const actual = fs.readdirSync('spec/fixtures/target/basename-mock2', { recursive: true }).sort();
       const expected = [
-         'spec/fixtures/target/basename-mock2/subfolder/mock2.html',
-         'spec/fixtures/target/basename-mock2/subfolder/mock2.js',
-         'spec/fixtures/target/basename-mock2/subfolder/mock2.min.css',
+         'subfolder',
+         'subfolder/mock2.html',
+         'subfolder/mock2.js',
+         'subfolder/mock2.min.css',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -105,14 +107,15 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       const source = 'source';
       const target = 'target/ext';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: undefined });
-      const actual = revWebAssets.readFolderRecursive('spec/fixtures/target/ext');
+      const actual = fs.readdirSync('spec/fixtures/target/ext', { recursive: true }).sort();
       const expected = [
-         'spec/fixtures/target/ext/mock1.html',
-         'spec/fixtures/target/ext/mock1.js',
-         'spec/fixtures/target/ext/mock1.min.css',
-         'spec/fixtures/target/ext/subfolder/mock2.html',
-         'spec/fixtures/target/ext/subfolder/mock2.js',
-         'spec/fixtures/target/ext/subfolder/mock2.min.css',
+         'mock1.html',
+         'mock1.js',
+         'mock1.min.css',
+         'subfolder',
+         'subfolder/mock2.html',
+         'subfolder/mock2.js',
+         'subfolder/mock2.min.css',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -121,10 +124,11 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       const source = 'source';
       const target = 'target/ext-js';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: ['.js'] });
-      const actual = revWebAssets.readFolderRecursive('spec/fixtures/target/ext-js');
+      const actual = fs.readdirSync('spec/fixtures/target/ext-js', { recursive: true }).sort();
       const expected = [
-         'spec/fixtures/target/ext-js/mock1.js',
-         'spec/fixtures/target/ext-js/subfolder/mock2.js',
+         'mock1.js',
+         'subfolder',
+         'subfolder/mock2.js',
          ];
       assertDeepStrictEqual(actual, expected);
       });
@@ -154,10 +158,8 @@ describe('Executing the CLI', () => {
 
    it('with basic parameters creates the expected new menu file', () => {
       run('copy-folder --cd=spec/fixtures/source subfolder --ext=.css ../target/cli');
-      const actual = revWebAssets.readFolderRecursive('spec/fixtures/target/cli');
-      const expected = [
-         'spec/fixtures/target/cli/mock2.min.css',
-         ];
+      const actual =   fs.readdirSync('spec/fixtures/target/cli').sort();
+      const expected = ['mock2.min.css'];
       assertDeepStrictEqual(actual, expected);
       });
 
