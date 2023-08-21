@@ -5,7 +5,7 @@
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { cliArgvUtil } from 'cli-argv-util';
 import assert from 'assert';
-import fs from     'fs';
+import fs     from 'fs';
 
 // Setup
 import { copyFolder } from '../dist/copy-folder.js';
@@ -49,7 +49,7 @@ describe('Calling copyFolder.cp() with no options', () => {
       const source = 'spec/fixtures/source';
       const target = 'spec/fixtures/target/default';
       copyFolder.cp(source, target);
-      const actual = fs.readdirSync(target, { recursive: true }).sort();
+      const actual = cliArgvUtil.readFolder(target, { recursive: true }).sort();
       const expected = [
          'mock1.html',
          'mock1.js',
@@ -71,7 +71,7 @@ describe('Calling copyFolder.cp() with the basename option', () => {
       const source = 'source';
       const target = 'target/basename';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: undefined });
-      const actual = fs.readdirSync('spec/fixtures/target/basename', { recursive: true }).sort();
+      const actual = cliArgvUtil.readFolder('spec/fixtures/target/basename');
       const expected = [
          'mock1.html',
          'mock1.js',
@@ -88,7 +88,7 @@ describe('Calling copyFolder.cp() with the basename option', () => {
       const source = 'source';
       const target = 'target/basename-mock2';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: 'mock2' });
-      const actual = fs.readdirSync('spec/fixtures/target/basename-mock2', { recursive: true }).sort();
+      const actual = cliArgvUtil.readFolder('spec/fixtures/target/basename-mock2');
       const expected = [
          'subfolder',
          'subfolder/mock2.html',
@@ -107,7 +107,7 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       const source = 'source';
       const target = 'target/ext';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: undefined });
-      const actual = fs.readdirSync('spec/fixtures/target/ext', { recursive: true }).sort();
+      const actual = cliArgvUtil.readFolder('spec/fixtures/target/ext');
       const expected = [
          'mock1.html',
          'mock1.js',
@@ -124,7 +124,7 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       const source = 'source';
       const target = 'target/ext-js';
       copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: ['.js'] });
-      const actual = fs.readdirSync('spec/fixtures/target/ext-js', { recursive: true }).sort();
+      const actual = cliArgvUtil.readFolder('spec/fixtures/target/ext-js');
       const expected = [
          'mock1.js',
          'subfolder',
