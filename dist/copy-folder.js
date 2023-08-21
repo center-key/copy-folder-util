@@ -1,4 +1,4 @@
-//! copy-folder-util v1.1.0 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.1.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import fs from 'fs';
 import path from 'path';
@@ -12,7 +12,7 @@ const copyFolder = {
             cd: null,
             fileExtensions: [],
         };
-        const settings = Object.assign(Object.assign({}, defaults), options);
+        const settings = { ...defaults, ...options };
         const startTime = Date.now();
         const normalize = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
         const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';

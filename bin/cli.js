@@ -10,7 +10,7 @@
 //    },
 //
 // Usage from command line:
-//    $ npm install --global copy-folder-util
+//    $ npm install --save-dev copy-folder-util
 //    $ copy-folder build dist
 //    $ copy-folder src/web --ext=.js,.html docs
 //

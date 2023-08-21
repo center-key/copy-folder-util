@@ -1,6 +1,6 @@
 {
    "name": "copy-folder-util",
-   "version": "1.1.0",
+   "version": "1.1.1",
    "description": "Recursively copy files from one folder to another folder (CLI tool designed for use in npm scripts)",
    "license": "MIT",
    "type": "module",
