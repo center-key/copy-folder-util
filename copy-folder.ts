@@ -1,15 +1,16 @@
 // copy-folder-util ~~ MIT License
 
+// Imports
 import fs    from 'fs';
 import path  from 'path';
 import slash from 'slash';
 
+// Types
 export type Settings = {
    basename:       string,    //filter files by filename ignoring the file extension
    cd:             string,    //change working directory before starting copy
    fileExtensions: string[],  //filter files by file extensions, example: ['.js', '.css']
    };
-export type Options = Partial<Settings>;
 export type Results = {
    source:   string,  //path of origination folder
    target:   string,  //path of destination folder
@@ -23,7 +24,7 @@ const extraneousFolders = ['.git', 'node_modules'];
 
 const copyFolder = {
 
-   cp(sourceFolder: string, targetFolder: string, options?: Options): Results {
+   cp(sourceFolder: string, targetFolder: string, options?: Partial<Settings>): Results {
       const defaults = {
          basename:       null,
          cd:             null,
