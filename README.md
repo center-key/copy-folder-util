@@ -68,7 +68,7 @@ Examples:
    Copy only the JavaScript and HTML files to the **docs** folder.
 
 ## C) Application Code
-Even though **copy-folder-util** is primarily intended for build scripts, the package can easily be used programmatically in ESM and TypeScript projects.
+Even though **copy-folder-util** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
 
 Example:
 ``` typescript
