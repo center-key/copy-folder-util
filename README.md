@@ -56,16 +56,21 @@ Command-line flags:
 
 Examples:
    - `copy-folder build --basename=index dist` <br>
-   Only copy files with filenames matching `index.*`.
+   Only copies files with filenames matching `index.*`.
 
    - `copy-folder -cd=spec fixtures mock1`<br>
-   Copy the folder **spec/fixtures** to **spec/mock1**.
+   Copies the folder **spec/fixtures** to **spec/mock1**.
 
    - `copy-folder build dist --summary`<br>
    Displays the summary but not the individual files copied.
 
+   - `copy-folder 'src/Legal Notices' dist --summary`<br>
+   Copies a folder that has a space in its name.
+
    - `copy-folder src/web --ext=.js,.html docs`<br>
-   Copy only the JavaScript and HTML files to the **docs** folder.
+   Copies only the JavaScript and HTML files to the **docs** folder.
+
+_**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 ## C) Application Code
 Even though **copy-folder-util** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
