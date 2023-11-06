@@ -1,11 +1,10 @@
-//! copy-folder-util v1.1.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.1.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 export type Settings = {
     basename: string;
     cd: string;
     fileExtensions: string[];
 };
-export type Options = Partial<Settings>;
 export type Results = {
     source: string;
     target: string;
@@ -16,7 +15,11 @@ export type Results = {
         dest: string;
     }[];
 };
+export type ReporterSettings = {
+    summaryOnly: boolean;
+};
 declare const copyFolder: {
-    cp(sourceFolder: string, targetFolder: string, options?: Options): Results;
+    cp(sourceFolder: string, targetFolder: string, options?: Partial<Settings>): Results;
+    reporter(results: Results, options?: Partial<ReporterSettings>): Results;
 };
 export { copyFolder };
