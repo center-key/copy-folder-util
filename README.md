@@ -1,7 +1,7 @@
 # copy-folder-util
 <img src=https://centerkey.com/graphics/center-key-logo.svg align=right width=200 alt=logo>
 
-_Recursively copy files from one folder to another folder (CLI tool designed for use in npm scripts)_
+_Recursively copy files from one folder to another folder (CLI tool designed for use in npm package.json scripts)_
 
 [![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/center-key/copy-folder-util/blob/main/LICENSE.txt)
 [![npm](https://img.shields.io/npm/v/copy-folder-util.svg)](https://www.npmjs.com/package/copy-folder-util)
@@ -20,7 +20,7 @@ $ npm install --save-dev copy-folder-util
 ```
 
 ## B) Usage
-### 1. npm scripts
+### 1. npm package.json scripts
 Run `copy-folder` from the `"scripts"` section of your **package.json** file.
 
 Parameters:
@@ -96,7 +96,7 @@ See the **TypeScript Declarations** at the top of [copy-folder.ts](copy-folder.t
    - 🪺 [recursive-exec](https://github.com/center-key/recursive-exec):&nbsp; _Run a command on each file in a folder and its subfolders_
    - 🔍 [replacer-util](https://github.com/center-key/replacer-util):&nbsp; _Find and replace strings or template outputs in text files_
    - 🔢 [rev-web-assets](https://github.com/center-key/rev-web-assets):&nbsp; _Revision web asset filenames with cache busting content hash fingerprints_
-   - 🚆 [run-scripts-util](https://github.com/center-key/run-scripts-util):&nbsp; _Organize npm scripts into named groups of easy to manage commands_
+   - 🚆 [run-scripts-util](https://github.com/center-key/run-scripts-util):&nbsp; _Organize npm package.json scripts into named groups of easy to manage commands_
    - 🚦 [w3c-html-validator](https://github.com/center-key/w3c-html-validator):&nbsp; _Check the markup validity of HTML files using the W3C validator_
 
 Feel free to submit questions at:<br>

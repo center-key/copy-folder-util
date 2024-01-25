@@ -1,21 +1,15 @@
 {
    "name": "copy-folder-util",
    "version": "1.1.3",
-   "description": "Recursively copy files from one folder to another folder (CLI tool designed for use in npm scripts)",
+   "description": "Recursively copy files from one folder to another folder (CLI tool designed for use in npm package.json scripts)",
    "license": "MIT",
    "type": "module",
    "module": "dist/copy-folder.js",
-   "main": "dist/copy-folder.js",
    "types": "dist/copy-folder.d.ts",
+   "exports": "./dist/copy-folder.js",
    "files": [
       "dist"
    ],
-   "exports": {
-      ".": {
-         "import": "./dist/copy-folder.js"
-      },
-      "./": "./dist/"
-   },
    "bin": {
       "copy-folder": "bin/cli.js",
       "copy-folder-util": "bin/cli.js"
@@ -93,9 +87,9 @@
    },
    "devDependencies": {
       "@types/fancy-log": "~2.0",
-      "@types/node": "~20.10",
-      "@typescript-eslint/eslint-plugin": "~6.17",
-      "@typescript-eslint/parser": "~6.17",
+      "@types/node": "~20.11",
+      "@typescript-eslint/eslint-plugin": "~6.19",
+      "@typescript-eslint/parser": "~6.19",
       "add-dist-header": "~1.3",
       "assert-deep-strict-equal": "~1.1",
       "copy-file-util": "~1.1",
