@@ -53,10 +53,10 @@ const copyFolder = {
          !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
          null;
       if (errorMessage)
-         throw Error('[copy-folder-util] ' + errorMessage);
+         throw new Error('[copy-folder-util] ' + errorMessage);
       const filterOff = {
          base: !settings.basename,
-         ext:  !settings.fileExtensions || settings.fileExtensions.length === 0,
+         ext:  !Array.isArray(settings.fileExtensions) || !settings.fileExtensions.length,
          };
       const files: Results["files"] = [];
       const posixPath = (nativePath: string) => slash(nativePath.replace(/.*:/, ''));

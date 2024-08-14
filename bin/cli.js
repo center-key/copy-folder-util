@@ -38,7 +38,7 @@ const error =
    cli.paramsCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
    null;
 if (error)
-   throw Error('[copy-folder-util] ' + error);
+   throw new Error('[copy-folder-util] ' + error);
 const options = {
    cd:             cli.flagMap.cd ?? null,
    fileExtensions: cli.flagMap.ext?.split(',') ?? [],
