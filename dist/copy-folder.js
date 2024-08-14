@@ -1,4 +1,4 @@
-//! copy-folder-util v1.1.3 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.1.4 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import chalk from 'chalk';
 import fs from 'fs';
@@ -30,10 +30,10 @@ const copyFolder = {
                             !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
                                 null;
         if (errorMessage)
-            throw Error('[copy-folder-util] ' + errorMessage);
+            throw new Error('[copy-folder-util] ' + errorMessage);
         const filterOff = {
             base: !settings.basename,
-            ext: !settings.fileExtensions || settings.fileExtensions.length === 0,
+            ext: !Array.isArray(settings.fileExtensions) || !settings.fileExtensions.length,
         };
         const files = [];
         const posixPath = (nativePath) => slash(nativePath.replace(/.*:/, ''));
