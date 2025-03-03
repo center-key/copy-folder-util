@@ -84,7 +84,7 @@ const results = copyFolder.cp('src/web', 'docs/api-manual', options);
 console.log('Number of files copied:', results.count);
 ```
 
-See the **TypeScript Declarations** at the top of [copy-folder.ts](copy-folder.ts) for documentation.
+See the **TypeScript Declarations** at the top of [copy-folder.ts](src/copy-folder.ts) for documentation.
 
 <br>
 
