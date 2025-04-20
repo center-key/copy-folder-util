@@ -32,10 +32,10 @@ const target =     cli.params[1];
 
 // Copy Folder
 const error =
-   cli.invalidFlag ?     cli.invalidFlagMsg :
-   !source ?             'Missing source folder.' :
-   !target ?             'Missing target folder.' :
-   cli.paramsCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+   cli.invalidFlag ?    cli.invalidFlagMsg :
+   !source ?            'Missing source folder.' :
+   !target ?            'Missing target folder.' :
+   cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
    null;
 if (error)
    throw new Error('[copy-folder-util] ' + error);
