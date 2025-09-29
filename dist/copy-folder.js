@@ -1,4 +1,4 @@
-//! copy-folder-util v1.1.5 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.1.6 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import chalk from 'chalk';
 import fs from 'fs';
