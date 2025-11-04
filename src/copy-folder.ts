@@ -37,11 +37,11 @@ const copyFolder = {
          };
       const settings = { ...defaults, ...options };
       const startTime = Date.now();
-      const normalize = (folder: string) =>
+      const cleanPath = (folder: string) =>
          !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-      const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
-      const source =      normalize(startFolder + sourceFolder);
-      const target =      normalize(startFolder + targetFolder);
+      const startFolder = settings.cd ? cleanPath(settings.cd) + '/' : '';
+      const source =      cleanPath(startFolder + sourceFolder);
+      const target =      cleanPath(startFolder + targetFolder);
       if (targetFolder)
          fs.mkdirSync(target, { recursive: true });
       const errorMessage =

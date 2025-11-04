@@ -24,7 +24,7 @@
 import { cliArgvUtil } from 'cli-argv-util';
 import { copyFolder } from '../dist/copy-folder.js';
 
-// Parameters and flags
+// Parameters and Flags
 const validFlags = ['cd', 'ext', 'note', 'quiet', 'summary'];
 const cli =        cliArgvUtil.parse(validFlags);
 const source =     cli.params[0];

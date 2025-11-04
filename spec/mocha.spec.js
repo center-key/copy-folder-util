@@ -50,8 +50,8 @@ describe('Library module', () => {
 describe('Calling copyFolder.cp() with no options', () => {
 
    it('copies all files in the source folder to the target folder', () => {
-      const source = 'spec/fixtures/source';
-      const target = 'spec/fixtures/target/default';
+      const source = 'spec/fixtures';
+      const target = 'spec/target/default';
       copyFolder.cp(source, target);
       const actual = cliArgvUtil.readFolder(target, { recursive: true }).sort();
       const expected = [
@@ -72,10 +72,10 @@ describe('Calling copyFolder.cp() with no options', () => {
 describe('Calling copyFolder.cp() with the basename option', () => {
 
    it('set to undefined results in all files being copied', () => {
-      const source = 'source';
+      const source = 'fixtures';
       const target = 'target/basename';
-      copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: undefined });
-      const actual = cliArgvUtil.readFolder('spec/fixtures/target/basename');
+      copyFolder.cp(source, target, { cd: 'spec', basename: undefined });
+      const actual = cliArgvUtil.readFolder('spec/target/basename');
       const expected = [
          'mock1.html',
          'mock1.js',
@@ -89,10 +89,10 @@ describe('Calling copyFolder.cp() with the basename option', () => {
       });
 
    it('set to "mock2" only copies the "mock2" files', () => {
-      const source = 'source';
+      const source = 'fixtures';
       const target = 'target/basename-mock2';
-      copyFolder.cp(source, target, { cd: 'spec/fixtures', basename: 'mock2' });
-      const actual = cliArgvUtil.readFolder('spec/fixtures/target/basename-mock2');
+      copyFolder.cp(source, target, { cd: 'spec', basename: 'mock2' });
+      const actual = cliArgvUtil.readFolder('spec/target/basename-mock2');
       const expected = [
          'subfolder',
          'subfolder/mock2.html',
@@ -108,10 +108,10 @@ describe('Calling copyFolder.cp() with the basename option', () => {
 describe('Calling copyFolder.cp() with the fileExtensions option', () => {
 
    it('set to undefined results in all files being copied', () => {
-      const source = 'source';
+      const source = 'fixtures';
       const target = 'target/ext';
-      copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: undefined });
-      const actual = cliArgvUtil.readFolder('spec/fixtures/target/ext');
+      copyFolder.cp(source, target, { cd: 'spec', fileExtensions: undefined });
+      const actual = cliArgvUtil.readFolder('spec/target/ext');
       const expected = [
          'mock1.html',
          'mock1.js',
@@ -125,10 +125,10 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       });
 
    it('set to ".js" only copies the JavaScript files', () => {
-      const source = 'source';
+      const source = 'fixtures';
       const target = 'target/ext-js';
-      copyFolder.cp(source, target, { cd: 'spec/fixtures', fileExtensions: ['.js'] });
-      const actual = cliArgvUtil.readFolder('spec/fixtures/target/ext-js');
+      copyFolder.cp(source, target, { cd: 'spec', fileExtensions: ['.js'] });
+      const actual = cliArgvUtil.readFolder('spec/target/ext-js');
       const expected = [
          'mock1.js',
          'subfolder',
@@ -161,8 +161,8 @@ describe('Executing the CLI', () => {
    const run = (posix) => cliArgvUtil.run(pkg, posix);
 
    it('with basic parameters creates the expected new menu file', () => {
-      run('copy-folder --cd=spec/fixtures/source subfolder --ext=.css ../target/cli');
-      const actual =   fs.readdirSync('spec/fixtures/target/cli').sort();
+      run('copy-folder --cd=spec/fixtures subfolder --ext=.css ../target/cli');
+      const actual =   fs.readdirSync('spec/target/cli').sort();
       const expected = ['mock2.min.css'];
       assertDeepStrictEqual(actual, expected);
       });

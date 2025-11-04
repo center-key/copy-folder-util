@@ -54,7 +54,7 @@ Command-line flags:
 | `--quiet`    | Suppress informational messages.                      | N/A        |
 | `--summary`  | Only print out the single line summary message.       | N/A        |
 
-Examples:
+### 4. Examples
    - `copy-folder build --basename=index dist` <br>
    Only copies files with filenames matching `index.*`.
 
