@@ -34,12 +34,14 @@ describe('Library module', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('has functions named cp() and reporter()', () => {
+   it('has functions named assert(), cp(), and reporter()', () => {
       const module = copyFolder;
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
-         ['cp',       'function'],
-         ['reporter', 'function'],
+         ['assert',     'function'],
+         ['cp',         'function'],
+         ['extraneous', 'object'],
+         ['reporter',   'function'],
          ];
       assertDeepStrictEqual(actual, expected);
       });

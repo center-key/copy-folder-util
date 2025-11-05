@@ -9,9 +9,9 @@ import slash from 'slash';
 
 // Types
 export type Settings = {
-   basename:       string,    //filter files by filename ignoring the file extension
-   cd:             string,    //change working directory before starting copy
-   fileExtensions: string[],  //filter files by file extensions, example: ['.js', '.css']
+   basename:       string | null,  //filter files by filename ignoring the file extension
+   cd:             string | null,  //change working directory before starting copy
+   fileExtensions: string[],       //filter files by file extensions, example: ['.js', '.css']
    };
 export type Results = {
    source:   string,  //path of origination folder
@@ -24,13 +24,20 @@ export type ReporterSettings = {
    summaryOnly: boolean,  //only print out the single line summary message
    };
 
-const extraneousFiles =   ['.DS_Store', 'Thumbs.db', 'desktop.ini'];
-const extraneousFolders = ['.git', 'node_modules'];
-
 const copyFolder = {
 
+   extraneous: {
+      files:  ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
+      folders: ['.git', 'node_modules'],
+      },
+
+   assert(ok: unknown, message: string | null) {
+      if (!ok)
+         throw new Error(`[copy-folder-util] ${message}`);
+      },
+
    cp(sourceFolder: string, targetFolder: string, options?: Partial<Settings>): Results {
-      const defaults = {
+      const defaults: Settings = {
          basename:       null,
          cd:             null,
          fileExtensions: [],
@@ -44,7 +51,7 @@ const copyFolder = {
       const target =      cleanPath(startFolder + targetFolder);
       if (targetFolder)
          fs.mkdirSync(target, { recursive: true });
-      const errorMessage =
+      const error =
          !sourceFolder ?                      'Must specify the source folder path.' :
          !targetFolder ?                      'Must specify the target folder path.' :
          !fs.existsSync(source) ?             'Source folder does not exist: ' + source :
@@ -52,8 +59,7 @@ const copyFolder = {
          !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
          !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
          null;
-      if (errorMessage)
-         throw new Error('[copy-folder-util] ' + errorMessage);
+      copyFolder.assert(!error, error);
       const filterOff = {
          base: !settings.basename,
          ext:  !Array.isArray(settings.fileExtensions) || !settings.fileExtensions.length,
@@ -66,11 +72,11 @@ const copyFolder = {
          const isFile =     fs.statSync(origin).isFile();
          const name =       path.basename(origin);
          const ext =        path.extname(origin);
-         const keepFolder = !isFile && !extraneousFolders.includes(name);
+         const keepFolder = !isFile && !copyFolder.extraneous.folders.includes(name);
          const keepFile = isFile &&
             (filterOff.base || name.replace(/[.].*/, '') === settings.basename) &&
             (filterOff.ext ||  settings.fileExtensions.includes(ext)) &&
-            !extraneousFiles.includes(name);
+            !copyFolder.extraneous.files.includes(name);
          if (keepFile)
             files.push({
                origin: relativePath(posixPath(origin), source),
@@ -89,7 +95,7 @@ const copyFolder = {
       },
 
    reporter(results: Results, options?: Partial<ReporterSettings>): Results {
-      const defaults = {
+      const defaults: ReporterSettings = {
          summaryOnly: false,
          };
       const settings = { ...defaults, ...options };
