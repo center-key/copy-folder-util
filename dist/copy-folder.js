@@ -1,13 +1,19 @@
-//! copy-folder-util v1.1.6 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.1.7 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import chalk from 'chalk';
 import fs from 'fs';
 import log from 'fancy-log';
 import path from 'path';
 import slash from 'slash';
-const extraneousFiles = ['.DS_Store', 'Thumbs.db', 'desktop.ini'];
-const extraneousFolders = ['.git', 'node_modules'];
 const copyFolder = {
+    extraneous: {
+        files: ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
+        folders: ['.git', 'node_modules'],
+    },
+    assert(ok, message) {
+        if (!ok)
+            throw new Error(`[copy-folder-util] ${message}`);
+    },
     cp(sourceFolder, targetFolder, options) {
         const defaults = {
             basename: null,
@@ -16,21 +22,20 @@ const copyFolder = {
         };
         const settings = { ...defaults, ...options };
         const startTime = Date.now();
-        const normalize = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
-        const startFolder = settings.cd ? normalize(settings.cd) + '/' : '';
-        const source = normalize(startFolder + sourceFolder);
-        const target = normalize(startFolder + targetFolder);
+        const cleanPath = (folder) => !folder ? '' : slash(path.normalize(folder)).replace(/\/$/, '');
+        const startFolder = settings.cd ? cleanPath(settings.cd) + '/' : '';
+        const source = cleanPath(startFolder + sourceFolder);
+        const target = cleanPath(startFolder + targetFolder);
         if (targetFolder)
             fs.mkdirSync(target, { recursive: true });
-        const errorMessage = !sourceFolder ? 'Must specify the source folder path.' :
+        const error = !sourceFolder ? 'Must specify the source folder path.' :
             !targetFolder ? 'Must specify the target folder path.' :
                 !fs.existsSync(source) ? 'Source folder does not exist: ' + source :
                     !fs.existsSync(target) ? 'Target folder cannot be created: ' + target :
                         !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
                             !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
                                 null;
-        if (errorMessage)
-            throw new Error('[copy-folder-util] ' + errorMessage);
+        copyFolder.assert(!error, error);
         const filterOff = {
             base: !settings.basename,
             ext: !Array.isArray(settings.fileExtensions) || !settings.fileExtensions.length,
@@ -42,11 +47,11 @@ const copyFolder = {
             const isFile = fs.statSync(origin).isFile();
             const name = path.basename(origin);
             const ext = path.extname(origin);
-            const keepFolder = !isFile && !extraneousFolders.includes(name);
+            const keepFolder = !isFile && !copyFolder.extraneous.folders.includes(name);
             const keepFile = isFile &&
                 (filterOff.base || name.replace(/[.].*/, '') === settings.basename) &&
                 (filterOff.ext || settings.fileExtensions.includes(ext)) &&
-                !extraneousFiles.includes(name);
+                !copyFolder.extraneous.files.includes(name);
             if (keepFile)
                 files.push({
                     origin: relativePath(posixPath(origin), source),
