@@ -1,5 +1,6 @@
-//! copy-folder-util v1.1.7 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.0 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
+import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
 import fs from 'fs';
 import log from 'fancy-log';
@@ -13,6 +14,26 @@ const copyFolder = {
     assert(ok, message) {
         if (!ok)
             throw new Error(`[copy-folder-util] ${message}`);
+    },
+    cli() {
+        const validFlags = ['basename', 'cd', 'ext', 'note', 'quiet', 'summary'];
+        const cli = cliArgvUtil.parse(validFlags);
+        const source = cli.params[0];
+        const target = cli.params[1];
+        const error = cli.invalidFlag ? cli.invalidFlagMsg :
+            !source ? 'Missing source folder.' :
+                !target ? 'Missing target folder.' :
+                    cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+                        null;
+        copyFolder.assert(!error, error);
+        const options = {
+            basename: cli.flagMap.basename ?? null,
+            cd: cli.flagMap.cd ?? null,
+            fileExtensions: cli.flagMap.ext?.split(',') ?? [],
+        };
+        const results = copyFolder.cp(source, target, options);
+        if (!cli.flagOn.quiet)
+            copyFolder.reporter(results, { summaryOnly: cli.flagOn.summary });
     },
     cp(sourceFolder, targetFolder, options) {
         const defaults = {
