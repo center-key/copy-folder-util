@@ -39,6 +39,7 @@ describe('Library module', () => {
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
          ['assert',     'function'],
+         ['cli',        'function'],
          ['cp',         'function'],
          ['extraneous', 'object'],
          ['reporter',   'function'],

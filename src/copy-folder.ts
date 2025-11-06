@@ -1,6 +1,23 @@
 // copy-folder-util ~~ MIT License
+//
+// Usage in package.json:
+//    "scripts": {
+//       "make-dist": "copy-folder build dist"
+//    },
+//
+// Usage from command line:
+//    $ npm install --save-dev copy-folder-util
+//    $ copy-folder build dist
+//    $ copy-folder src/web --ext=.js,.html docs
+//
+// Contributors to this project:
+//    $ cd copy-folder-util
+//    $ npm install
+//    $ npm test
+//    $ node bin/cli.js --cd=spec/fixtures source --ext=.js target/ext-js
 
 // Imports
+import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
 import fs    from 'fs';
 import log   from 'fancy-log';
@@ -34,6 +51,28 @@ const copyFolder = {
    assert(ok: unknown, message: string | null) {
       if (!ok)
          throw new Error(`[copy-folder-util] ${message}`);
+      },
+
+   cli() {
+      const validFlags = ['basename', 'cd', 'ext', 'note', 'quiet', 'summary'];
+      const cli =        cliArgvUtil.parse(validFlags);
+      const source =     cli.params[0];
+      const target =     cli.params[1];
+      const error =
+         cli.invalidFlag ?    cli.invalidFlagMsg :
+         !source ?            'Missing source folder.' :
+         !target ?            'Missing target folder.' :
+         cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2]! :
+         null;
+      copyFolder.assert(!error, error);
+      const options: Settings = {
+         basename:       cli.flagMap.basename ?? null,
+         cd:             cli.flagMap.cd ?? null,
+         fileExtensions: cli.flagMap.ext?.split(',') ?? [],
+         };
+      const results = copyFolder.cp(source!, target!, options);
+      if (!cli.flagOn.quiet)
+         copyFolder.reporter(results, { summaryOnly: cli.flagOn.summary! });
       },
 
    cp(sourceFolder: string, targetFolder: string, options?: Partial<Settings>): Results {
@@ -106,7 +145,7 @@ const copyFolder = {
       const infoColor = results.count ? chalk.white : chalk.red.bold;
       const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
       log(name, source, arrow.big, target, info);
-      const logFile = (file: Results["files"][0]) =>
+      const logFile = (file: Results["files"][number]) =>
          log(name, chalk.white(file.origin), arrow.little, chalk.green(file.dest));
       if (!settings.summaryOnly)
          results.files.forEach(logFile);
