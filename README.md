@@ -20,12 +20,16 @@ $ npm install --save-dev copy-folder-util
 ```
 
 ## B) Usage
-### 1. npm package.json scripts
-Run `copy-folder` from the `"scripts"` section of your **package.json** file.
-
+### 1. Synopsis
+```
+copy-folder [SOURCE] [TARGET]
+```
 Parameters:
 * The **first** parameter is the *source* folder.
 * The **second** parameter is the *target* folder.
+
+### 2. npm package.json scripts
+Run `copy-folder` from the `"scripts"` section of your **package.json** file.
 
 Example **package.json** scripts:
 ```json
@@ -35,7 +39,7 @@ Example **package.json** scripts:
    },
 ```
 
-### 2. Command-line npx
+### 3. Command-line npx
 Example terminal commands:
 ```shell
 $ npm install --save-dev copy-folder-util
@@ -43,7 +47,7 @@ $ npx copy-folder src/web ext=.html docs/api-manual
 ```
 You can also install **copy-folder-util** globally (`--global`) and then run it anywhere directly from the terminal.
 
-### 3. CLI flags
+### 4. CLI flags
 Command-line flags:
 | Flag         | Description                                           | Value      |
 | ------------ | ----------------------------------------------------- | ---------- |
@@ -54,7 +58,7 @@ Command-line flags:
 | `--quiet`    | Suppress informational messages.                      | N/A        |
 | `--summary`  | Only print out the single line summary message.       | N/A        |
 
-### 4. Examples
+### 5. Examples
    - `copy-folder build --basename=index dist` <br>
    Only copies files with filenames matching `index.*`.
 
@@ -62,7 +66,7 @@ Command-line flags:
    Copies the folder **spec/fixtures** to **spec/mock1**.
 
    - `copy-folder build dist --summary`<br>
-   Displays the summary but not the individual files copied.
+   Displays the summary informaion but not informaion about individual files copied.
 
    - `copy-folder 'src/Legal Notices' dist --summary`<br>
    Copies a folder that has a space in its name.
@@ -70,7 +74,8 @@ Command-line flags:
    - `copy-folder src/web --ext=.js,.html docs`<br>
    Copies only the JavaScript and HTML files to the **docs** folder.
 
-_**Note:** Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
+> [!NOTE]
+> _Single quotes in commands are normalized so they work cross-platform and avoid the errors often encountered on Microsoft Windows._
 
 ## C) Application Code
 Even though **copy-folder-util** is primarily intended for build scripts, the package can be used programmatically in ESM and TypeScript projects.
