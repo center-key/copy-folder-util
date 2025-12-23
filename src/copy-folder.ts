@@ -139,13 +139,12 @@ const copyFolder = {
          };
       const settings = { ...defaults, ...options };
       const name =      chalk.gray('copy-folder');
-      const indent =    chalk.gray('|');
       const ancestor =  cliArgvUtil.calcAncestor(results.source, results.target);
       const infoColor = results.count ? chalk.white : chalk.red.bold;
       const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
       log(name, ancestor.message, info);
-      const logFile = (file: Results["files"][number]) =>
-         log(name, indent, cliArgvUtil.calcAncestor(file.origin, file.dest).message);
+      const logFile = (file: Results["files"][number], i: number) =>
+         log(name, chalk.magenta(i + 1), cliArgvUtil.calcAncestor(file.origin, file.dest).message);
       if (!settings.summaryOnly)
          results.files.forEach(logFile);
       return results;
