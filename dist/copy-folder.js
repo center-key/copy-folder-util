@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.1 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
@@ -95,12 +95,11 @@ const copyFolder = {
         };
         const settings = { ...defaults, ...options };
         const name = chalk.gray('copy-folder');
-        const indent = chalk.gray('|');
         const ancestor = cliArgvUtil.calcAncestor(results.source, results.target);
         const infoColor = results.count ? chalk.white : chalk.red.bold;
         const info = infoColor(`(files: ${results.count}, ${results.duration}ms)`);
         log(name, ancestor.message, info);
-        const logFile = (file) => log(name, indent, cliArgvUtil.calcAncestor(file.origin, file.dest).message);
+        const logFile = (file, i) => log(name, chalk.magenta(i + 1), cliArgvUtil.calcAncestor(file.origin, file.dest).message);
         if (!settings.summaryOnly)
             results.files.forEach(logFile);
         return results;
