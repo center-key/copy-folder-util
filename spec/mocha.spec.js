@@ -170,4 +170,15 @@ describe('Executing the CLI', () => {
       assertDeepStrictEqual(actual, expected);
       });
 
+   it('on a folder with a subfolder copies the nested files', () => {
+      run('copy-folder spec/fixtures --ext=.js spec/target/cli-nested');
+      const actual = cliArgvUtil.readFolder('spec/target/cli-nested');
+      const expected = [
+         'mock1.js',
+         'subfolder',
+         'subfolder/mock2.js',
+         ];
+      assertDeepStrictEqual(actual, expected);
+      });
+
    });

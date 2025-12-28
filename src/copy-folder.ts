@@ -35,7 +35,7 @@ export type Results = {
    target:   string,  //path of destination folder
    count:    number,  //number of files copied
    duration: number,  //execution time in milliseconds
-   files:    { origin: string, dest: string }[],
+   files:    { filename: string, origin: string, dest: string }[],
    };
 export type ReporterSettings = {
    summaryOnly: boolean,  //only print out the single line summary message
@@ -105,12 +105,11 @@ const copyFolder = {
          };
       const files: Results["files"] = [];
       const posixPath = (nativePath: string) => slash(nativePath.replace(/.*:/, ''));
-      const relativePath = (fullPath: string, start: string): string =>
-         fullPath.substring(fullPath.indexOf(start) + start.length + 1);
       const filter = (origin: string, dest: string) => {
          const isFile =     fs.statSync(origin).isFile();
          const name =       path.basename(origin);
          const ext =        path.extname(origin);
+         const ancestor =   cliArgvUtil.calcAncestor(posixPath(origin), posixPath(dest));
          const keepFolder = !isFile && !copyFolder.extraneous.folders.includes(name);
          const keepFile = isFile &&
             (filterOff.base || name.replace(/[.].*/, '') === settings.basename) &&
@@ -118,8 +117,9 @@ const copyFolder = {
             !copyFolder.extraneous.files.includes(name);
          if (keepFile)
             files.push({
-               origin: relativePath(posixPath(origin), source),
-               dest:   relativePath(posixPath(dest),   target),
+               filename: name,
+               origin:   path.dirname(ancestor.source) + '/',
+               dest:     path.dirname(ancestor.target) + '/',
                });
          return keepFolder || keepFile;
          };
@@ -143,8 +143,10 @@ const copyFolder = {
       const infoColor = results.count ? chalk.white : chalk.red.bold;
       const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
       log(name, ancestor.message, info);
+      const message = (source: string, filename: string, target: string) =>
+         chalk.gray(source) + cliArgvUtil.calcAncestor(filename, target).message;
       const logFile = (file: Results["files"][number], i: number) =>
-         log(name, chalk.magenta(i + 1), cliArgvUtil.calcAncestor(file.origin, file.dest).message);
+         log(name, chalk.magenta(i + 1), message(file.origin, file.filename, file.dest));
       if (!settings.summaryOnly)
          results.files.forEach(logFile);
       return results;
