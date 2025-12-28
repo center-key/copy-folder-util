@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.3 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
@@ -63,11 +63,11 @@ const copyFolder = {
         };
         const files = [];
         const posixPath = (nativePath) => slash(nativePath.replace(/.*:/, ''));
-        const relativePath = (fullPath, start) => fullPath.substring(fullPath.indexOf(start) + start.length + 1);
         const filter = (origin, dest) => {
             const isFile = fs.statSync(origin).isFile();
             const name = path.basename(origin);
             const ext = path.extname(origin);
+            const ancestor = cliArgvUtil.calcAncestor(posixPath(origin), posixPath(dest));
             const keepFolder = !isFile && !copyFolder.extraneous.folders.includes(name);
             const keepFile = isFile &&
                 (filterOff.base || name.replace(/[.].*/, '') === settings.basename) &&
@@ -75,8 +75,9 @@ const copyFolder = {
                 !copyFolder.extraneous.files.includes(name);
             if (keepFile)
                 files.push({
-                    origin: relativePath(posixPath(origin), source),
-                    dest: relativePath(posixPath(dest), target),
+                    filename: name,
+                    origin: path.dirname(ancestor.source) + '/',
+                    dest: path.dirname(ancestor.target) + '/',
                 });
             return keepFolder || keepFile;
         };
@@ -99,7 +100,8 @@ const copyFolder = {
         const infoColor = results.count ? chalk.white : chalk.red.bold;
         const info = infoColor(`(files: ${results.count}, ${results.duration}ms)`);
         log(name, ancestor.message, info);
-        const logFile = (file, i) => log(name, chalk.magenta(i + 1), cliArgvUtil.calcAncestor(file.origin, file.dest).message);
+        const message = (source, filename, target) => chalk.gray(source) + cliArgvUtil.calcAncestor(filename, target).message;
+        const logFile = (file, i) => log(name, chalk.magenta(i + 1), message(file.origin, file.filename, file.dest));
         if (!settings.summaryOnly)
             results.files.forEach(logFile);
         return results;

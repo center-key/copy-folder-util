@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.2 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.3 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 export type Settings = {
     basename: string | null;
@@ -11,6 +11,7 @@ export type Results = {
     count: number;
     duration: number;
     files: {
+        filename: string;
         origin: string;
         dest: string;
     }[];
