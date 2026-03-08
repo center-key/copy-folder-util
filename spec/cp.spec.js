@@ -1,53 +1,12 @@
 // copy-folder-util
-// Mocha Specification Suite
+// Function cp() Specification Suite
 
 // Imports
 import { assertDeepStrictEqual } from 'assert-deep-strict-equal';
 import { cliArgvUtil } from 'cli-argv-util';
-import assert from 'assert';
-import fs     from 'fs';
 
 // Setup
 import { copyFolder } from '../dist/copy-folder.js';
-const pkg = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
-
-////////////////////////////////////////////////////////////////////////////////
-describe('The "dist" folder', () => {
-
-   it('contains the correct files', () => {
-      const actual = fs.readdirSync('dist').sort();
-      const expected = [
-         'copy-folder.d.ts',
-         'copy-folder.js',
-         ];
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   });
-
-////////////////////////////////////////////////////////////////////////////////
-describe('Library module', () => {
-
-   it('is an object', () => {
-      const actual =   { constructor: copyFolder.constructor.name };
-      const expected = { constructor: 'Object' };
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   it('has functions named assert(), cp(), and reporter()', () => {
-      const module = copyFolder;
-      const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
-      const expected = [
-         ['assert',     'function'],
-         ['cli',        'function'],
-         ['cp',         'function'],
-         ['extraneous', 'object'],
-         ['reporter',   'function'],
-         ];
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   });
 
 ////////////////////////////////////////////////////////////////////////////////
 describe('Calling copyFolder.cp() with no options', () => {
@@ -132,47 +91,6 @@ describe('Calling copyFolder.cp() with the fileExtensions option', () => {
       const target = 'target/ext-js';
       copyFolder.cp(source, target, { cd: 'spec', fileExtensions: ['.js'] });
       const actual = cliArgvUtil.readFolder('spec/target/ext-js');
-      const expected = [
-         'mock1.js',
-         'subfolder',
-         'subfolder/mock2.js',
-         ];
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   });
-
-////////////////////////////////////////////////////////////////////////////////
-describe('Correct error is thrown', () => {
-
-   it('when the "source" folder is missing', () => {
-      const makeBogusCall = () => copyFolder.cp();
-      const exception =     { message: '[copy-folder-util] Must specify the source folder path.' };
-      assert.throws(makeBogusCall, exception);
-      });
-
-   it('when the "target" folder is missing', () => {
-      const makeBogusCall = () => copyFolder.cp('/source-folder');
-      const exception =     { message: '[copy-folder-util] Must specify the target folder path.' };
-      assert.throws(makeBogusCall, exception);
-      });
-
-   });
-
-////////////////////////////////////////////////////////////////////////////////
-describe('Executing the CLI', () => {
-   const run = (posix) => cliArgvUtil.run(pkg, posix);
-
-   it('with basic parameters creates the expected new menu file', () => {
-      run('copy-folder --cd=spec/fixtures subfolder --ext=.css ../target/cli');
-      const actual =   fs.readdirSync('spec/target/cli').sort();
-      const expected = ['mock2.min.css'];
-      assertDeepStrictEqual(actual, expected);
-      });
-
-   it('on a folder with a subfolder copies the nested files', () => {
-      run('copy-folder spec/fixtures --ext=.js spec/target/cli-nested');
-      const actual = cliArgvUtil.readFolder('spec/target/cli-nested');
       const expected = [
          'mock1.js',
          'subfolder',

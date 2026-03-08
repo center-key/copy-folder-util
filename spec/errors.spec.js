@@ -1,0 +1,25 @@
+// copy-folder-util
+// Error Handling Specification Suite
+
+// Imports
+import assert from 'assert';
+
+// Setup
+import { copyFolder } from '../dist/copy-folder.js';
+
+////////////////////////////////////////////////////////////////////////////////
+describe('Correct error is thrown', () => {
+
+   it('when the "source" folder is missing', () => {
+      const makeBogusCall = () => copyFolder.cp();
+      const exception =     { message: '[copy-folder-util] Must specify the source folder path.' };
+      assert.throws(makeBogusCall, exception);
+      });
+
+   it('when the "target" folder is missing', () => {
+      const makeBogusCall = () => copyFolder.cp('/source-folder');
+      const exception =     { message: '[copy-folder-util] Must specify the target folder path.' };
+      assert.throws(makeBogusCall, exception);
+      });
+
+   });
