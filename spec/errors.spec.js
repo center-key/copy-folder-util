@@ -2,7 +2,7 @@
 // Error Handling Specification Suite
 
 // Imports
-import assert from 'assert';
+import assert from 'node:assert';
 
 // Setup
 import { copyFolder } from '../dist/copy-folder.js';

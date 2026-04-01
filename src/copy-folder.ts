@@ -19,9 +19,9 @@
 // Imports
 import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
-import fs    from 'fs';
+import fs    from 'node:fs';
 import log   from 'fancy-log';
-import path  from 'path';
+import path  from 'node:path';
 import slash from 'slash';
 
 // Types
