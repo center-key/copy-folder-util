@@ -44,11 +44,11 @@ export type ReporterSettings = {
 const copyFolder = {
 
    extraneous: {
-      files:  ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
+      files:   ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
       folders: ['.git', 'node_modules'],
       },
 
-   assert(ok: unknown, message: string | null) {
+   assertOk(ok: unknown, message: string | null) {
       if (!ok)
          throw new Error(`[copy-folder-util] ${message}`);
       },
@@ -64,7 +64,7 @@ const copyFolder = {
          !target ?            'Missing target folder.' :
          cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2]! :
          null;
-      copyFolder.assert(!error, error);
+      copyFolder.assertOk(!error, error);
       const options: Settings = {
          basename:       cli.flagMap.basename ?? null,
          cd:             cli.flagMap.cd ?? null,
@@ -98,7 +98,7 @@ const copyFolder = {
          !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
          !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
          null;
-      copyFolder.assert(!error, error);
+      copyFolder.assertOk(!error, error);
       const filterOff = {
          base: !settings.basename,
          ext:  !Array.isArray(settings.fileExtensions) || !settings.fileExtensions.length,
