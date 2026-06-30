@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.4 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.5 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 export type Settings = {
     basename: string | null;
@@ -16,15 +16,17 @@ export type Results = {
         dest: string;
     }[];
 };
+export type ResultsFile = Results["files"][number];
 export type ReporterSettings = {
     summaryOnly: boolean;
 };
 declare const copyFolder: {
+    version: string;
     extraneous: {
         files: string[];
         folders: string[];
     };
-    assert(ok: unknown, message: string | null): void;
+    assertOk(ok: unknown, message: string | null): void;
     cli(): void;
     cp(sourceFolder: string, targetFolder: string, options?: Partial<Settings>): Results;
     reporter(results: Results, options?: Partial<ReporterSettings>): Results;

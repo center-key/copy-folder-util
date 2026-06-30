@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.4 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.5 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
@@ -7,11 +7,12 @@ import log from 'fancy-log';
 import path from 'node:path';
 import slash from 'slash';
 const copyFolder = {
+    version: '1.2.5',
     extraneous: {
         files: ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
         folders: ['.git', 'node_modules'],
     },
-    assert(ok, message) {
+    assertOk(ok, message) {
         if (!ok)
             throw new Error(`[copy-folder-util] ${message}`);
     },
@@ -25,7 +26,7 @@ const copyFolder = {
                 !target ? 'Missing target folder.' :
                     cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
                         null;
-        copyFolder.assert(!error, error);
+        copyFolder.assertOk(!error, error);
         const options = {
             basename: cli.flagMap.basename ?? null,
             cd: cli.flagMap.cd ?? null,
@@ -56,7 +57,7 @@ const copyFolder = {
                         !fs.statSync(source).isDirectory() ? 'Source is not a folder: ' + source :
                             !fs.statSync(target).isDirectory() ? 'Target is not a folder: ' + target :
                                 null;
-        copyFolder.assert(!error, error);
+        copyFolder.assertOk(!error, error);
         const filterOff = {
             base: !settings.basename,
             ext: !Array.isArray(settings.fileExtensions) || !settings.fileExtensions.length,
@@ -96,12 +97,11 @@ const copyFolder = {
         };
         const settings = { ...defaults, ...options };
         const name = chalk.gray('copy-folder');
-        const ancestor = cliArgvUtil.calcAncestor(results.source, results.target);
+        const version = chalk.gray('v' + copyFolder.version);
         const infoColor = results.count ? chalk.white : chalk.red.bold;
         const info = infoColor(`(files: ${results.count}, ${results.duration}ms)`);
-        log(name, ancestor.message, info);
-        const message = (source, filename, target) => chalk.gray(source) + cliArgvUtil.calcAncestor(filename, target).message;
-        const logFile = (file, i) => log(name, chalk.magenta(i + 1), message(file.origin, file.filename, file.dest));
+        log(name, version, results.source, info);
+        const logFile = (file, index) => log(name, chalk.magenta(index + 1), chalk.green(file.dest) + chalk.white(file.filename));
         if (!settings.summaryOnly)
             results.files.forEach(logFile);
         return results;
