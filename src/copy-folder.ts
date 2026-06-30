@@ -37,11 +37,14 @@ export type Results = {
    duration: number,  //execution time in milliseconds
    files:    { filename: string, origin: string, dest: string }[],
    };
+export type ResultsFile = Results["files"][number];
 export type ReporterSettings = {
    summaryOnly: boolean,  //only print out the single line summary message
    };
 
 const copyFolder = {
+
+   version: '{{package.version}}',
 
    extraneous: {
       files:   ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
@@ -137,16 +140,14 @@ const copyFolder = {
       const defaults: ReporterSettings = {
          summaryOnly: false,
          };
-      const settings = { ...defaults, ...options };
+      const settings =  { ...defaults, ...options };
       const name =      chalk.gray('copy-folder');
-      const ancestor =  cliArgvUtil.calcAncestor(results.source, results.target);
+      const version =   chalk.gray('v' + copyFolder.version);
       const infoColor = results.count ? chalk.white : chalk.red.bold;
       const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
-      log(name, ancestor.message, info);
-      const message = (source: string, filename: string, target: string) =>
-         chalk.gray(source) + cliArgvUtil.calcAncestor(filename, target).message;
-      const logFile = (file: Results["files"][number], i: number) =>
-         log(name, chalk.magenta(i + 1), message(file.origin, file.filename, file.dest));
+      log(name, version, results.source, info);
+      const logFile = (file: ResultsFile, index: number) =>
+         log(name, chalk.magenta(index + 1), chalk.green(file.dest) + chalk.white(file.filename));
       if (!settings.summaryOnly)
          results.files.forEach(logFile);
       return results;

@@ -23,11 +23,24 @@ describe('The "dist" folder', () => {
    });
 
 ////////////////////////////////////////////////////////////////////////////////
+describe('Library version number', () => {
+
+   it('follows semantic version formatting', () => {
+      const version =  copyFolder.version;
+      const semVer =   /\d+[.]\d+[.]\d+/;
+      const actual =   { version: version, valid: semVer.test(version) };
+      const expected = { version: version, valid: true };
+      assertDeepStrictEqual(actual, expected);
+      });
+
+   });
+
+////////////////////////////////////////////////////////////////////////////////
 describe('Library module', () => {
 
-   it('is an object', () => {
-      const actual =   { constructor: copyFolder.constructor.name };
-      const expected = { constructor: 'Object' };
+   it('is exported as an object', () => {
+      const actual =   { type: typeof copyFolder };
+      const expected = { type: 'object' };
       assertDeepStrictEqual(actual, expected);
       });
 
@@ -40,6 +53,7 @@ describe('Library module', () => {
          ['cp',         'function'],
          ['extraneous', 'object'],
          ['reporter',   'function'],
+         ['version',    'string'],
          ];
       assertDeepStrictEqual(actual, expected);
       });
