@@ -38,14 +38,15 @@ describe('Library version number', () => {
 ////////////////////////////////////////////////////////////////////////////////
 describe('Library module', () => {
 
+   const module = copyFolder;
+
    it('is exported as an object', () => {
-      const actual =   { type: typeof copyFolder };
+      const actual =   { type: typeof module };
       const expected = { type: 'object' };
       assertDeepStrictEqual(actual, expected);
       });
 
-   it('has functions named assert(), cp(), and reporter()', () => {
-      const module = copyFolder;
+   it('has the correct properties', () => {
       const actual = Object.keys(module).sort().map(key => [key, typeof module[key]]);
       const expected = [
          ['assertOk',   'function'],
