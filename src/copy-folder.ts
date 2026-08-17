@@ -121,9 +121,9 @@ const copyFolder = {
       const settings =  { ...defaults, ...options };
       const name =      chalk.gray('copy-folder');
       const version =   chalk.gray('v' + copyFolder.version);
-      const infoColor = results.count ? chalk.white : chalk.red.bold;
-      const info =      infoColor(`(files: ${results.count}, ${results.duration}ms)`);
-      log(name, version, results.source, info);
+      const message =   `(files: ${results.count}, ${results.duration}ms)`;
+      const summary =   results.count ? chalk.blue(message) : chalk.red.bold(message);
+      log(name, version, results.source, summary);
       const logFile = (file: ResultsFile, index: number) =>
          log(name, chalk.magenta(index + 1), chalk.green(file.dest) + chalk.white(file.filename));
       if (!settings.summaryOnly)
