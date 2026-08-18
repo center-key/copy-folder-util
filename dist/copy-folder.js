@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.5 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.6 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
@@ -7,7 +7,7 @@ import log from 'fancy-log';
 import path from 'node:path';
 import slash from 'slash';
 const copyFolder = {
-    version: '1.2.5',
+    version: '1.2.6',
     extraneous: {
         files: ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
         folders: ['.git', 'node_modules'],
@@ -15,26 +15,6 @@ const copyFolder = {
     assertOk(ok, message) {
         if (!ok)
             throw new Error(`[copy-folder-util] ${message}`);
-    },
-    cli() {
-        const validFlags = ['basename', 'cd', 'ext', 'note', 'quiet', 'summary'];
-        const cli = cliArgvUtil.parse(validFlags);
-        const source = cli.params[0];
-        const target = cli.params[1];
-        const error = cli.invalidFlag ? cli.invalidFlagMsg :
-            !source ? 'Missing source folder.' :
-                !target ? 'Missing target folder.' :
-                    cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
-                        null;
-        copyFolder.assertOk(!error, error);
-        const options = {
-            basename: cli.flagMap.basename ?? null,
-            cd: cli.flagMap.cd ?? null,
-            fileExtensions: cli.flagMap.ext?.split(',') ?? [],
-        };
-        const results = copyFolder.cp(source, target, options);
-        if (!cli.flagOn.quiet)
-            copyFolder.reporter(results, { summaryOnly: cli.flagOn.summary });
     },
     cp(sourceFolder, targetFolder, options) {
         const defaults = {
@@ -98,13 +78,33 @@ const copyFolder = {
         const settings = { ...defaults, ...options };
         const name = chalk.gray('copy-folder');
         const version = chalk.gray('v' + copyFolder.version);
-        const infoColor = results.count ? chalk.white : chalk.red.bold;
-        const info = infoColor(`(files: ${results.count}, ${results.duration}ms)`);
-        log(name, version, results.source, info);
+        const message = `(files: ${results.count}, ${results.duration}ms)`;
+        const summary = results.count ? chalk.blue(message) : chalk.red.bold(message);
+        log(name, version, results.source, summary);
         const logFile = (file, index) => log(name, chalk.magenta(index + 1), chalk.green(file.dest) + chalk.white(file.filename));
         if (!settings.summaryOnly)
             results.files.forEach(logFile);
         return results;
+    },
+    cli() {
+        const validFlags = ['basename', 'cd', 'ext', 'note', 'quiet', 'summary'];
+        const cli = cliArgvUtil.parse(validFlags);
+        const source = cli.params[0];
+        const target = cli.params[1];
+        const error = cli.invalidFlag ? cli.invalidFlagMsg :
+            !source ? 'Missing source folder.' :
+                !target ? 'Missing target folder.' :
+                    cli.paramCount > 2 ? 'Extraneous parameter: ' + cli.params[2] :
+                        null;
+        copyFolder.assertOk(!error, error);
+        const options = {
+            basename: cli.flagMap.basename ?? null,
+            cd: cli.flagMap.cd ?? null,
+            fileExtensions: cli.flagMap.ext?.split(',') ?? [],
+        };
+        const results = copyFolder.cp(source, target, options);
+        if (!cli.flagOn.quiet)
+            copyFolder.reporter(results, { summaryOnly: cli.flagOn.summary });
     },
 };
 export { copyFolder };
