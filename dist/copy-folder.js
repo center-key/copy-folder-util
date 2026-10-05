@@ -1,4 +1,4 @@
-//! copy-folder-util v1.2.6 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
+//! copy-folder-util v1.2.7 ~~ https://github.com/center-key/copy-folder-util ~~ MIT License
 
 import { cliArgvUtil } from 'cli-argv-util';
 import chalk from 'chalk';
@@ -7,7 +7,7 @@ import log from 'fancy-log';
 import path from 'node:path';
 import slash from 'slash';
 const copyFolder = {
-    version: '1.2.6',
+    version: '1.2.7',
     extraneous: {
         files: ['.DS_Store', 'Thumbs.db', 'desktop.ini'],
         folders: ['.git', 'node_modules'],
@@ -79,7 +79,7 @@ const copyFolder = {
         const name = chalk.gray('copy-folder');
         const version = chalk.gray('v' + copyFolder.version);
         const message = `(files: ${results.count}, ${results.duration}ms)`;
-        const summary = results.count ? chalk.blue(message) : chalk.red.bold(message);
+        const summary = results.count ? chalk.blue(message) : chalk.redBright(message);
         log(name, version, results.source, summary);
         const logFile = (file, index) => log(name, chalk.magenta(index + 1), chalk.green(file.dest) + chalk.white(file.filename));
         if (!settings.summaryOnly)
